@@ -1,0 +1,39 @@
+
+.board-list {
+  padding-inline-start: 0px;
+}
+.board-list li {
+  cursor: pointer;
+  list-style-type: none;
+  text-align: start;
+}
+.head-name {
+  margin-top: 5px;
+  color: #24479e;
+  font-weight: bold;
+  font-family: 'Lobster', cursive;
+}
+.nav-button {
+  border-radius: 3px;
+  border: 0;
+  cursor: pointer;
+  align-items: center;
+  background-color: hsla(0,0%,100%,.3);
+  box-shadow: none;
+  color: #fff;
+  display: flex;
+  font-weight: 700;
+  height: 32px;
+  margin: 0 4px 0 0;
+  padding: 15px 10px;
+  white-space: nowrap;
+}
+.nav-button:focus, .nav-button:hover {
+  background-color: hsla(0,0%,100%,.2);
+  box-shadow: none;
+  color: #fff;
+}
+
+.back-header {
+  background-color: #6fb0de;
+}
