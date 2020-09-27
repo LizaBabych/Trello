@@ -3,13 +3,13 @@ import BoardCard from '../components/BoardCard';
 
 function BoardCards(props) {
 
-  const boards = //openBoards();
+  const boards = //getBoards();
   [
     {id: 1591534943599, title: "test"},
     {id: 1591534948835, title: "test2"},
   ]
 
-  async function openBoards() {
+  async function getBoards() {
     try {
       let response = await fetch("http://localhost:5000/v1/board", {
         method: "GET",

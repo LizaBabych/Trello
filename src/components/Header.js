@@ -1,5 +1,4 @@
 import React from 'react';
-import Modal from './Modal';
 import '../styles/header.css';
 
 function Header() {

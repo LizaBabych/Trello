@@ -1,0 +1,57 @@
+.sidebar {
+  margin-top: 150px;
+}
+.sidenav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  left: 150px;
+  overflow-x: hidden;
+}
+
+.sidenav .active, .active:hover {
+  border-radius: 5px;
+  background-color: #c5d0e5;
+  color: #282b30;
+}
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #756d6d;
+  display: block;
+
+}
+.sidenav a:hover {
+  color: #b3adad;
+}
+
+.main {
+  margin-left: 420px;
+  padding: 0px 10px;
+}
+
+.main .mes {
+  width: 500px;
+  background-color: #FFFFFF;
+  border-radius: 7px;
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  padding-bottom: 10px;
+}
+.main .mes img {
+  border-radius: 7px 7px 0 0;
+  width: 500px;
+  height: 130px;
+  object-fit: cover;
+}
+.main .mes .head-par {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 5px 0 5px;
+}
+.main .mes .par {
+  text-align: center;
+  padding: 10px 30px 0 30px;
+  color: 5e5656;
+}

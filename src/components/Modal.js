@@ -5,19 +5,6 @@ export default class Modal extends React.Component  {
   state = {
     isOpen: false
   }
-  // openModal = openModal.bind(this);
-  // closeModal = closeModal.bind(this);
-  //
-  // function openModal() {
-  //   this.setState ({
-  //     state: true;
-  //   });
-  // }
-  // function closeModal() {
-  //   this.setState ({
-  //     state: false;
-  //   });
-  // }
   render() {
     return (
       <React.Fragment>

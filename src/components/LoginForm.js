@@ -1,8 +1,10 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Link } from 'react-router-dom';
 
 function LoginForm() {
+  let token = "";
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -29,11 +31,12 @@ function LoginForm() {
             console.log("Error: " + response.status);
         }
         let res = await response.json();
+        token = res.token;
         console.log(res);
       } catch (error) {
           alert("Error");
       }
-   },
+    },
   });
 
   return (
@@ -71,6 +74,7 @@ function LoginForm() {
             Войти
           </button>
         </div>
+        <Link to="/">Войти</Link>
       </form>
     </div>
   );
