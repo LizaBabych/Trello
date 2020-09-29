@@ -32,7 +32,7 @@ function BoardCards(props) {
   return (
     <div>
       {boards.map((board) =>
-        <BoardCard key={board.id} title={board.title}></BoardCard>
+        <BoardCard key={board.id} token={props.token} id={board.id} title={board.title}></BoardCard>
       )}
     </div>
   );

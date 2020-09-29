@@ -3,16 +3,17 @@ import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import '../styles/sidebar.css';
 
-export const Home = () => {
+function Home(props) {
+  const token = props.match.params.token;
   return (
     <div>
       <Header></Header>
       <div className="sidebar">
         <div className="sidenav">
-          <Link to="/boards">Доски</Link>
-          <Link to="/">Шаблоны</Link>
-          <Link className="active" to="/">Домашняя страница</Link>
-          <Link to="/">Команды</Link>
+          <Link to={token + "/boards"}>Доски</Link>
+          <Link to={"/" + token}>Шаблоны</Link>
+          <Link className="active" to={"/" + token}>Домашняя страница</Link>
+          <Link to={"/" + token}>Команды</Link>
         </div>
         <div className="main">
         <div className="mes">
@@ -27,4 +28,5 @@ export const Home = () => {
   );
 }
 
+export default Home;
 // <SideBar token="1600427382873"></SideBar>

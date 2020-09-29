@@ -1,6 +1,5 @@
 .board-card-list {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
 }
 .board-card {
@@ -19,4 +18,20 @@
   font-family: 'Lobster', cursive;
   padding: 5px 5px 5px 15px;
   font-size: 22px;
+}
+
+.board-card-body {
+  display: flex;
+  justify-content: center;
+  padding: 5px 5px 5px 15px;
+}
+
+.board-card-body-link, .board-card-body-link:hover {
+  color: #43184a;
+  font-weight: bold;
+  font-size: 24px;
+  text-decoration: none;
+}
+.board-card-body-link:hover {
+  color: #35133b;
 }
