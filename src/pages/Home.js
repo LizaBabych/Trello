@@ -16,12 +16,12 @@ function Home(props) {
           <Link to={"/" + token}>Команды</Link>
         </div>
         <div className="main">
-        <div className="mes">
-          <img src="../assets/team.jpg" alt="Error"></img>
-          <h5 className="head-par">Оставайтесь на правильном пути и в курсе событий</h5>
-          <p className="par">Приглашайте людей к доскам и карточкам, оставляйте комментарии и
-            добавляйте даты завершения. Здесь будет отображаться важная активность.</p>
-        </div>
+          <div className="mes">
+            <img src="../assets/team.jpg" alt="Error"></img>
+            <h5 className="head-par">Оставайтесь на правильном пути и в курсе событий</h5>
+            <p className="par">Приглашайте людей к доскам и карточкам, оставляйте комментарии и
+              добавляйте даты завершения. Здесь будет отображаться важная активность.</p>
+          </div>
         </div>
       </div>
     </div>

@@ -16,7 +16,7 @@ function App() {
             <Route path='/registration' component={Registration}/>
             <Route path='/:token' exact component={Home}/>
             <Route path='/:token/boards' component={Boards}/>
-            <Route path='/:token/b/:title' component={BoardPage}/>
+            <Route path='/:token/b/:id' component={BoardPage}/>
           </Switch>
         </div>
       </BrowserRouter>

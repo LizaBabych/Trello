@@ -3,12 +3,12 @@ import Board from '../components/Board';
 import Header from '../components/Header';
 import '../styles/sidebar.css';
 
-function BoardPage() {
+function BoardPage(props) {
   return (
     <div>
       <Header></Header>
       <div className="sidebar">
-        <Board></Board>
+        <Board token={props.match.params.token} id={props.match.params.id}></Board>
       </div>
     </div>
   );

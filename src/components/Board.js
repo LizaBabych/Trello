@@ -1,18 +1,28 @@
 import React from 'react';
 import List from '../components/List';
 
-function Board(props) {
+class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    let lists = '';
+    let users = '';
+  }
 
-  const board = getBoard();
-  console.log(`Bearer ${board}`); // Promise
+  async componentDidMount() {
+    const boardData = await this.getBoard();
+    this.lists = boardData.lists;
+    this.users = boardData.users;
+    console.log(this.users);
+    console.log(this.lists);
+  }
 
-  async function getBoard() {
+  async getBoard() {
     try {
-      let response = await fetch("http://localhost:5000/v1/board/1591534948835", {
+      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}`, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 1600427382873'
+          'Authorization': `Bearer ${this.props.token}`
         },
       });
       if (!response.ok) {
@@ -25,11 +35,19 @@ function Board(props) {
     }
   }
 
-  return (
-    <div>
-      <List lists={board.lists}></List>
-    </div>
-  );
+  render() {
+    if(this.lists == ''){
+      return false
+    }
+    return (
+      <div>
+        <List lists={this.lists}></List>
+      </div>
+    );
+  }
 }
 
 export default Board;
+// {this.state.lists}
+// {this.state.users}
+// <List lists={board.lists}></List>

@@ -7,9 +7,7 @@ function List(props) {
     <div className="list">
       <form className="form-list">
         <div className="form-group">
-          <input v-model="listName" className="form-control" placeholder="Укажите название списка"/>
-          <button type="submit" className="btn btn-success mt-1 mb-1">Добавить</button>
-          <button className="btn"><i className="fa fa-close"></i></button>
+
         </div>
       </form>
     </div>
@@ -24,3 +22,7 @@ export default List;
 // {props.lists.map((list) =>
 //   <div key={list.id} token={list.token} id={list.id} title={list.title}></div>
 // )}
+
+// <input v-model="listName" className="form-control" placeholder="Укажите название списка"/>
+// <button type="submit" className="btn btn-success mt-1 mb-1">Добавить</button>
+// <button className="btn"><i className="fa fa-close"></i></button>
