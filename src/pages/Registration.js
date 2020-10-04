@@ -95,4 +95,3 @@ function Registration() {
 }
 
 export default Registration;
-// {props.touched.email && props.errors.email && <div className="text-danger">{props.errors.email}</div>}

@@ -11,7 +11,7 @@ function Boards(props) {
       <Header></Header>
       <div className="sidebar">
         <div className="sidenav">
-          <Link className="active" to={token + "/boards"}>Доски</Link>
+          <a className="active">Доски</a>
           <Link to={"/" + token}>Шаблоны</Link>
           <Link to={"/" + token}>Домашняя страница</Link>
           <Link to={"/" + token}>Команды</Link>

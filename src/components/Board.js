@@ -4,16 +4,13 @@ import List from '../components/List';
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    let lists = '';
-    let users = '';
+    this.state = {users: [], lists: []};
   }
 
   async componentDidMount() {
-    const boardData = await this.getBoard();
-    this.lists = boardData.lists;
-    this.users = boardData.users;
-    console.log(this.users);
-    console.log(this.lists);
+    await this.getBoard();
+    console.log(this.state.users);
+    console.log(this.state.lists);
   }
 
   async getBoard() {
@@ -28,26 +25,20 @@ class Board extends React.Component {
       if (!response.ok) {
           console.log("Error: " + response.status);
       }
-      let result = await response.json();
-      return result;
+      const result = await response.json();
+      this.setState({users: result.users, lists: result.lists});
     } catch (error) {
         alert("Error");
     }
   }
 
   render() {
-    if(this.lists == ''){
-      return false
-    }
     return (
       <div>
-        <List lists={this.lists}></List>
+        <List lists={this.state.lists}></List>
       </div>
     );
   }
 }
 
 export default Board;
-// {this.state.lists}
-// {this.state.users}
-// <List lists={board.lists}></List>

@@ -1,28 +1,58 @@
 import React from 'react';
+import Card from '../components/Card';
 import '../styles/list.css';
 
-function List(props) {
-  console.log(props.lists);
-  return (
-    <div className="list">
-      <form className="form-list">
-        <div className="form-group">
+class List extends React.Component {
 
-        </div>
-      </form>
-    </div>
-  );
+//Рендерит пустой масив чето
+  constructor(props) {
+    super(props);
+    this.state = {lists:   [
+        {id: 1591534954824, cards: {
+          created_at: 1591534966296,
+          description: "s",
+          id: 1591534954824,
+          position: 1,
+          title: "test",
+        }, title: "test", position: 1},
+        {id: 1591534959397, cards: {
+          created_at: 1591534966296,
+          description: "s",
+          id: 1591534954824,
+          position: 1,
+          title: "test",
+        }, title: "test2", position: 2},
+        {id: 1591534982687, cards: {
+          created_at: 1591534966296,
+          description: "s",
+          id: 1591534954824,
+          position: 1,
+          title: "test",
+        }, title: "test", position: 3}
+      ]};
+  }
+
+  componentDidMount() {
+    if (this.props.lists.length!== 0){
+      this.setState({lists: this.props.lists});
+      console.log(this.state.lists);
+    }
+  }
+
+  render() {
+    return (
+      <div className="list">
+        {this.state.lists.map((list) =>
+          <form key={list.position} className="form-list">
+            <div className="list-name">
+              {list.title}
+            </div>
+            <Card cards={list.cards}></Card>
+          </form>
+        )}
+      </div>
+    );
+  }
 }
 
 export default List;
-
-// Передаем список листов. Через map отрисовываем
-
-
-// {props.lists.map((list) =>
-//   <div key={list.id} token={list.token} id={list.id} title={list.title}></div>
-// )}
-
-// <input v-model="listName" className="form-control" placeholder="Укажите название списка"/>
-// <button type="submit" className="btn btn-success mt-1 mb-1">Добавить</button>
-// <button className="btn"><i className="fa fa-close"></i></button>

@@ -21,9 +21,8 @@
 }
 
 .board-card-body {
-  display: flex;
-  justify-content: center;
-  padding: 5px 5px 5px 15px;
+  margin-top: 75px;
+  margin-left: 200px;
 }
 
 .board-card-body-link, .board-card-body-link:hover {
