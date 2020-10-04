@@ -4,6 +4,8 @@
   margin-left: 20px;
 }
 .list-name {
+  display: flex;
+  justify-content: space-between;
   text-align: center;
   padding-bottom: 10px;
 }

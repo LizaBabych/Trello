@@ -35,7 +35,7 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        <List lists={this.state.lists}></List>
+        <List id={this.props.id} token={this.props.token} lists={this.state.lists}></List>
       </div>
     );
   }

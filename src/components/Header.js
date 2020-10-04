@@ -1,25 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/header.css';
 
-function Header() {
+function Header(props) {
   return (
     <nav className="navbar navbar-expand-lg fixed-top back-header">
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <button className="nav-button"><i className="fas fa-home"></i></button>
+            <button className="nav-button"><Link className="link" to={"/" + props.token}><i className="fas fa-home"></i></Link></button>
           </li>
           <li className="nav-item">
-            <button className="nav-button">Доски</button>
+            <button className="nav-button"><Link className="link" to={"/" + props.token + "/boards"}>Доски</Link></button>
           </li>
-          <li className="nav-item active">
+          <li className="nav-item">
             <button className="nav-button"><i className="fas fa-info-circle"></i></button>
           </li>
           <li className="nav-item">
             <button className="nav-button"><i className="fas fa-bell"></i></button>
           </li>
           <li className="nav-item">
-            <button className="nav-button"><i className="fas fa-plus"></i></button>
+            <button className="nav-button">
+               <i className="fas fa-plus"></i>
+            </button>
           </li>
         </ul>
         <h3 className="head-name mr-auto">MyTrello</h3>

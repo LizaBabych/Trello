@@ -37,3 +37,12 @@
 .back-header {
   background-color: #6fb0de;
 }
+
+.link {
+  color: white;
+}
+
+.link:focus, .link:hover {
+  color: white;
+  text-decoration: none;  
+}

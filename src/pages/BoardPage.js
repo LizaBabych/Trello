@@ -6,7 +6,7 @@ import '../styles/sidebar.css';
 function BoardPage(props) {
   return (
     <div>
-      <Header></Header>
+      <Header token={props.match.params.token}></Header>
       <div className="sidebar">
         <Board token={props.match.params.token} id={props.match.params.id}></Board>
       </div>
