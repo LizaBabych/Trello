@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import '../styles/sidebar.css';
 
 function BoardPage(props) {
+  console.log(`Страница с токеном: ${props.match.params.token} и id: ${props.match.params.id}`);
   return (
     <div>
       <Header token={props.match.params.token}></Header>

@@ -8,23 +8,24 @@ class BoardCard extends React.Component {
     this.deleteBoard = this.deleteBoard.bind(this);
   }
 
-  async deleteBoard() {
-    try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}`, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
-        },
-      });
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let res = await response.json();
-      console.log(res);
-    } catch (error) {
-        alert("Error");
-    }
+  deleteBoard() {
+    console.log(`Удалили доску с id: ${this.props.id} и token: ${this.props.token}`);
+    // try {
+    //   let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}`, {
+    //     method: "DELETE",
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Authorization': `Bearer ${this.props.token}`
+    //     },
+    //   });
+    //   if (!response.ok) {
+    //       console.log("Error: " + response.status);
+    //   }
+    //   let res = await response.json();
+    //   console.log(res);
+    // } catch (error) {
+    //     alert("Error");
+    // }
   }
 
   render() {

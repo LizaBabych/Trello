@@ -13,7 +13,7 @@ function Home(props) {
         <div className="sidenav">
           <Link to={token + "/boards"}>Доски</Link>
           <Link to={"/" + token}>Шаблоны</Link>
-          <a className="active">Домашняя страница</a>
+          <Link className="active" to={"/"}>Домашняя страница</Link>
           <Link to={"/" + token}>Команды</Link>
         </div>
         <div className="main">

@@ -9,8 +9,8 @@ class Board extends React.Component {
 
   async componentDidMount() {
     await this.getBoard();
-    console.log(this.state.users);
-    console.log(this.state.lists);
+    console.log("Списки на доске:");
+    console.log(this.state.lists); // Пустой ?
   }
 
   async getBoard() {
@@ -35,7 +35,7 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        <List id={this.props.id} token={this.props.token} lists={this.state.lists}></List>
+         <List id={this.props.id} token={this.props.token} lists={this.state.lists} />
       </div>
     );
   }

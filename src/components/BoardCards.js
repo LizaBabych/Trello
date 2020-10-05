@@ -10,6 +10,7 @@ class BoardCards extends React.Component {
 
   async componentDidMount() {
     await this.getBoards();
+    console.log("Получили доски: ");
     console.log(this.state.boards);
   }
 
