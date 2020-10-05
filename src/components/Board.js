@@ -4,16 +4,14 @@ import List from '../components/List';
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {users: [], lists: []};
+    this.state = {
+      isLoad: false,
+      users: [],
+      lists: []
+    };
   }
 
   async componentDidMount() {
-    await this.getBoard();
-    console.log("Списки на доске:");
-    console.log(this.state.lists); // Пустой ?
-  }
-
-  async getBoard() {
     try {
       let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}`, {
         method: "GET",
@@ -26,19 +24,24 @@ class Board extends React.Component {
           console.log("Error: " + response.status);
       }
       const result = await response.json();
-      this.setState({users: result.users, lists: result.lists});
+      this.setState({isLoad: true, users: result.users, lists: result.lists});
     } catch (error) {
         alert("Error");
     }
+    console.log("Списки на доске:");
+    console.log(this.state.lists);
   }
 
   render() {
     return (
-      <div>
-         <List id={this.props.id} token={this.props.token} lists={this.state.lists} />
-      </div>
+      <React.Fragment>
+        {this.state.isLoad &&
+          <div>
+            <List id={this.props.id} token={this.props.token} lists={this.state.lists} />
+          </div>
+        }
+      </React.Fragment>
     );
   }
 }
-
 export default Board;

@@ -5,7 +5,10 @@ class BoardCards extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {boards: []};
+    this.state = {
+      isLoad: false,
+      boards: []
+    };
   }
 
   async componentDidMount() {
@@ -27,18 +30,22 @@ class BoardCards extends React.Component {
           console.log("Error: " + response.status);
       }
       const result = await response.json();
-      this.setState({boards: result.boards});
+      this.setState({boards: result.boards, isLoad: true});
     } catch (error) {
         alert("Error");
     }
   }
   render() {
     return (
-      <div>
-        {this.state.boards.map((board) =>
-          <BoardCard key={board.id} token={this.props.token} id={board.id} title={board.title}></BoardCard>
-        )}
-      </div>
+      <React.Fragment>
+        {this.state.isLoad &&
+          <div>
+            {this.state.boards.map((board) =>
+              <BoardCard key={board.id} token={this.props.token} id={board.id} title={board.title}></BoardCard>
+            )}
+          </div>
+        }
+      </React.Fragment>
     );
   }
 }

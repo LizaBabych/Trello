@@ -25,7 +25,7 @@ class Boards extends React.Component {
         },
         body: JSON.stringify({
           'Authorization': `Bearer ${this.props.match.params.token}`,
-          "title": this.state.boardName, // ошибка чето
+          "title": this.state.boardName,
         }),
       });
       if (!response.ok) {
@@ -41,52 +41,56 @@ class Boards extends React.Component {
   }
 
   render() {
+    const token = this.props.match.params.token;
     return (
       <div>
-        <Header token={this.props.match.params.token}></Header>
+        <Header token={token}></Header>
         <div className="sidebar">
           <div className="sidenav">
-            <Link className="active" to={this.props.match.params.token + "/boards"}>Доски</Link>
-            <Link to={"/" + this.props.match.params.token}>Шаблоны</Link>
-            <Link to={"/" + this.props.match.params.token}>Домашняя страница</Link>
-            <Link to={"/" + this.props.match.params.token}>Команды</Link>
+            <Link className="active" to={token + "/boards"}>Доски</Link>
+            <Link to={"/" + token}>Шаблоны</Link>
+            <Link to={"/" + token}>Домашняя страница</Link>
+            <Link to={"/" + token}>Команды</Link>
           </div>
           <div className="main">
-            <BoardCards token={this.props.match.params.token}></BoardCards>
+            <BoardCards token={token}></BoardCards>
             <button className="btn" onClick={() => this.setState({isOpen: true})}>Добавить доску</button>
-            {this.state.isOpen ?
-              <div className="createBoard">
-                <div className='modal'></div>
-                <div className="modal-container">
-                  <div className='modal-content'>
-                    <div className='modal-head'>
-                      <h5>Создание доски</h5>
-                      <button><i className="fas fa-times" onClick={() => this.setState({isOpen: false})}></i></button>
-                    </div>
-                    <div className='modal-body'>
-                      <input
-                        type="text"
-                        value={this.state.boardName}
-                        onChange={(e) => this.setState({boardName: e.target.value})}
-                        className="form-control mb-2"
-                        placeholder="Введите название доски" />
-                      <div className="center">
-                        <button
-                          className="btn btn-sm btn-success"
-                          onClick={(e) => this.setState({boardName: e.target.value})}>
-                          Создать
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            </div>: <div />
-          }
+              {this.state.isOpen ?
+                <div>
+                  Окно открыто!
+                </div>: <div />
+            }
           </div>
         </div>
       </div>
     );
   }
 }
+
+//   <div className="createBoard">
+//     <div className='modal'></div>
+//     <div className="modal-container">
+//       <div className='modal-content'>
+//         <div className='modal-head'>
+//           <h5>Создание доски</h5>
+//           <button><i className="fas fa-times" onClick={() => this.setState({isOpen: false})}></i></button>
+//         </div>
+//         <div className='modal-body'>
+//           <input
+//             type="text"
+//             value={this.state.boardName}
+//             onChange={(e) => this.setState({boardName: e.target.value})}
+//             className="form-control mb-2"
+//             placeholder="Введите название доски" />
+//           <div className="center">
+//             <button
+//               className="btn btn-sm btn-success"
+//               onClick={(e) => this.setState({boardName: e.target.value})}>
+//               Создать
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//   </div>
 
 export default Boards;

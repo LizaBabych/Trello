@@ -8,7 +8,7 @@ function Home(props) {
   const token = props.match.params.token;
   return (
     <div>
-      <Header token={props.match.params.token}></Header>
+      <Header token={token}></Header>
       <div className="sidebar">
         <div className="sidenav">
           <Link to={token + "/boards"}>Доски</Link>
