@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import BoardCards from '../components/BoardCards';
+import AddBoard from '../components/AddBoard';
 import { Link } from 'react-router-dom';
 import '../styles/sidebar.css';
 import '../styles/createBoard.css';
@@ -13,6 +14,8 @@ class Boards extends React.Component {
       boardName: ''
     };
     this.createBoard = this.createBoard.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.setName = this.setName.bind(this);
   }
 
   async createBoard() {
@@ -40,6 +43,19 @@ class Boards extends React.Component {
     console.log(`Created with name: ${this.state.boardName}`);
   }
 
+  closeModal() {
+    this.setState({isOpen: false})
+  }
+
+  createBoard(e) {
+    this.setState({isOpen: false, boardName: e.target.value})
+    console.log(this.state.boardName);
+  }
+
+  setName(e) {
+    this.setState({boardName: e.target.value})
+  }
+
   render() {
     const token = this.props.match.params.token;
     return (
@@ -55,42 +71,16 @@ class Boards extends React.Component {
           <div className="main">
             <BoardCards token={token}></BoardCards>
             <button className="btn" onClick={() => this.setState({isOpen: true})}>Добавить доску</button>
-              {this.state.isOpen ?
+              {this.state.isOpen &&
                 <div>
-                  Окно открыто!
-                </div>: <div />
-            }
+                  <AddBoard boardName={this.state.boardName} setName={this.setName} close={this.closeModal} createBoard={this.createBoard}/>
+                </div>
+              }
           </div>
         </div>
       </div>
     );
   }
 }
-
-//   <div className="createBoard">
-//     <div className='modal'></div>
-//     <div className="modal-container">
-//       <div className='modal-content'>
-//         <div className='modal-head'>
-//           <h5>Создание доски</h5>
-//           <button><i className="fas fa-times" onClick={() => this.setState({isOpen: false})}></i></button>
-//         </div>
-//         <div className='modal-body'>
-//           <input
-//             type="text"
-//             value={this.state.boardName}
-//             onChange={(e) => this.setState({boardName: e.target.value})}
-//             className="form-control mb-2"
-//             placeholder="Введите название доски" />
-//           <div className="center">
-//             <button
-//               className="btn btn-sm btn-success"
-//               onClick={(e) => this.setState({boardName: e.target.value})}>
-//               Создать
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//   </div>
 
 export default Boards;
