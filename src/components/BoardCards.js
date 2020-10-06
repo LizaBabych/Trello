@@ -12,12 +12,6 @@ class BoardCards extends React.Component {
   }
 
   async componentDidMount() {
-    await this.getBoards();
-    console.log("Получили доски: ");
-    console.log(this.state.boards);
-  }
-
-  async getBoards() {
     try {
       let response = await fetch("http://localhost:5000/v1/board", {
         method: "GET",
@@ -34,7 +28,14 @@ class BoardCards extends React.Component {
     } catch (error) {
         alert("Error");
     }
+    console.log("Получили доски: ");
+    console.log(this.state.boards);
   }
+
+  async getBoards() {
+
+  }
+
   render() {
     return (
       <React.Fragment>

@@ -8,16 +8,16 @@ function Header(props) {
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <button className="nav-button"><Link className="link" to={"/" + props.token}><i className="fas fa-home"></i></Link></button>
+            <button className="nav-button"><Link className="link" to={"/" + props.token}><i className="fas fa-home"/></Link></button>
           </li>
           <li className="nav-item">
             <button className="nav-button"><Link className="link" to={"/" + props.token + "/boards"}>Доски</Link></button>
           </li>
           <li className="nav-item">
-            <button className="nav-button"><i className="fas fa-info-circle"></i></button>
+            <button className="nav-button"><i className="fas fa-info-circle"/></button>
           </li>
           <li className="nav-item">
-            <button className="nav-button"><i className="fas fa-bell"></i></button>
+            <button className="nav-button"><i className="fas fa-bell"/></button>
           </li>
           <li className="nav-item">
             <button className="nav-button">

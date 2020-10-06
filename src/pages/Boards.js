@@ -18,38 +18,33 @@ class Boards extends React.Component {
     this.setName = this.setName.bind(this);
   }
 
-  async createBoard() {
-    try {
-      let response = await fetch("http://localhost:5000/v1/board", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'charset': 'utf-8',
-        },
-        body: JSON.stringify({
-          'Authorization': `Bearer ${this.props.match.params.token}`,
-          "title": this.state.boardName,
-        }),
-      });
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let result = await response.json();
-      console.log(result);
-    } catch (error) {
-        alert("Error");
-    }
-    this.setState({isOpen: false});
+  async createBoard(e) {
+    this.setState({isOpen: false, boardName: e.target.value})
+    // try {
+    //   let response = await fetch("http://localhost:5000/v1/board", {
+    //     method: "POST",
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'charset': 'utf-8',
+    //     },
+    //     body: JSON.stringify({
+    //       'Authorization': `Bearer ${this.props.match.params.token}`,
+    //       "title": this.state.boardName,
+    //     }),
+    //   });
+    //   if (!response.ok) {
+    //       console.log("Error: " + response.status);
+    //   }
+    //   let result = await response.json();
+    //   console.log(result);
+    // } catch (error) {
+    //     alert("Error");
+    // }
     console.log(`Created with name: ${this.state.boardName}`);
   }
 
   closeModal() {
     this.setState({isOpen: false})
-  }
-
-  createBoard(e) {
-    this.setState({isOpen: false, boardName: e.target.value})
-    console.log(this.state.boardName);
   }
 
   setName(e) {
@@ -73,7 +68,12 @@ class Boards extends React.Component {
             <button className="btn" onClick={() => this.setState({isOpen: true})}>Добавить доску</button>
               {this.state.isOpen &&
                 <div>
-                  <AddBoard boardName={this.state.boardName} setName={this.setName} close={this.closeModal} createBoard={this.createBoard}/>
+                  <AddBoard
+                    title="Создание доски"
+                    boardName={this.state.boardName}
+                    setName={this.setName}
+                    close={this.closeModal}
+                    createBoard={this.createBoard}/>
                 </div>
               }
           </div>

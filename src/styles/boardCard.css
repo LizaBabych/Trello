@@ -25,8 +25,9 @@
 }
 
 .board-card-body {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 65px;
-  margin-left: 165px;
 }
 
 .board-card-body-link, .board-card-body-link:hover {
@@ -37,10 +38,6 @@
 }
 .board-card-body-link:hover {
   color: #35133b;
-}
-
-.red {
-  color: red;
 }
 
 i {

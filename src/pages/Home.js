@@ -7,7 +7,7 @@ import '../styles/sidebar.css';
 function Home(props) {
   const token = props.match.params.token;
   return (
-    <div>
+    <React.Fragment>
       <Header token={token}></Header>
       <div className="sidebar">
         <div className="sidenav">
@@ -25,7 +25,7 @@ function Home(props) {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 

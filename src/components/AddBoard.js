@@ -8,7 +8,7 @@ function AddBoard(props) {
         <div className="modal-container">
           <div className='modal-content'>
             <div className='modal-head'>
-              <h5>Создание доски</h5>
+              <h5>{props.title}</h5>
               <button><i className="fas fa-times" onClick={props.close} /></button>
             </div>
             <div className='modal-body'>

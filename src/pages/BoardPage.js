@@ -6,12 +6,12 @@ import '../styles/sidebar.css';
 function BoardPage(props) {
   console.log(`Страница с токеном: ${props.match.params.token} и id: ${props.match.params.id}`);
   return (
-    <div>
+    <React.Fragment>
       <Header token={props.match.params.token}></Header>
       <div className="sidebar">
         <Board token={props.match.params.token} id={props.match.params.id}></Board>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 
