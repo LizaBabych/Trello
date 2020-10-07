@@ -20,27 +20,26 @@ class Boards extends React.Component {
 
   async createBoard(e) {
     this.setState({isOpen: false, boardName: e.target.value})
-    // try {
-    //   let response = await fetch("http://localhost:5000/v1/board", {
-    //     method: "POST",
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'charset': 'utf-8',
-    //     },
-    //     body: JSON.stringify({
-    //       'Authorization': `Bearer ${this.props.match.params.token}`,
-    //       "title": this.state.boardName,
-    //     }),
-    //   });
-    //   if (!response.ok) {
-    //       console.log("Error: " + response.status);
-    //   }
-    //   let result = await response.json();
-    //   console.log(result);
-    // } catch (error) {
-    //     alert("Error");
-    // }
     console.log(`Created with name: ${this.state.boardName}`);
+    try {
+      let response = await fetch("http://localhost:5000/v1/board", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.match.params.token}`,
+        },
+        body: JSON.stringify({
+          "title": this.state.boardName,
+        }),
+      });
+      if (!response.ok) {
+          console.log("Error: " + response.status);
+      }
+      let result = await response.json();
+      console.log(result);
+    } catch (error) {
+        alert("Error");
+    }
   }
 
   closeModal() {

@@ -27,7 +27,6 @@
 .board-card-body {
   display: flex;
   justify-content: flex-end;
-  margin-top: 65px;
 }
 
 .board-card-body-link, .board-card-body-link:hover {
