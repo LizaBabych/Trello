@@ -32,17 +32,13 @@ class BoardCards extends React.Component {
     console.log(this.state.boards);
   }
 
-  async getBoards() {
-
-  }
-
   render() {
     return (
       <React.Fragment>
         {this.state.isLoad &&
           <div>
             {this.state.boards.map((board) =>
-              <BoardCard key={board.id} token={this.props.token} id={board.id} title={board.title}></BoardCard>
+              <BoardCard key={board.id} token={this.props.token} id={board.id} title={board.title} />
             )}
           </div>
         }

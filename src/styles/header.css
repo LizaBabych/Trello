@@ -35,6 +35,7 @@
 }
 
 .back-header {
+  z-index: -1;
   background-color: #6fb0de;
 }
 
@@ -44,5 +45,5 @@
 
 .link:focus, .link:hover {
   color: white;
-  text-decoration: none;  
+  text-decoration: none;
 }

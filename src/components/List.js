@@ -11,29 +11,26 @@ class List extends React.Component {
     this.state = {
       isOpen: false,
       boardName: '',
-      lists: [
+      lists: {
+        1591534954824:
         {id: 1591534954824, cards: {
           created_at: 1591534966296,
           description: "s",
           id: 1591534954824,
           position: 1,
           title: "test",
-        }, title: "test", position: 1},
-        {id: 1591534959397, cards: {
+        }, title: "test", position: 1
+        },
+        1591534954817:
+        {id: 1591534954817, cards: {
           created_at: 1591534966296,
           description: "s",
           id: 1591534954824,
           position: 1,
           title: "test",
-        }, title: "test2", position: 2},
-        {id: 1591534982687, cards: {
-          created_at: 1591534966296,
-          description: "s",
-          id: 1591534954824,
-          position: 1,
-          title: "test",
-        }, title: "test", position: 3}
-      ]
+        }, title: "test", position: 1
+        },
+      }
     };
     this.updateBoard = this.updateBoard.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -44,35 +41,31 @@ class List extends React.Component {
     this.setState({isOpen: false, boardName: e.target.value})
     console.log(`Updated with name: ${this.state.boardName}`);
   }
-  closeModal() {
-    this.setState({isOpen: false})
-  }
 
-  setName(e) {
-    this.setState({boardName: e.target.value})
-  }
+  closeModal() { this.setState({isOpen: false}) }
+
+  setName(e) { this.setState({boardName: e.target.value}) }
 
   render() {
     return (
       <div className="list">
-        {this.state.lists.map((list) =>
-          <form key={list.position} className="form-list">
+        {Object.keys(this.state.lists).map((list, index) => (
+          <form key={index} className="form-list">
             <div className="list-name">
-              {list.title}
+              {list}
               <i onClick={() => this.setState({isOpen: true})} className="fas fa-edit" />
             </div>
-            <Card cards={list.cards}/>
           </form>
-        )}
+        ))}
         {this.state.isOpen &&
-          <div>
+          <React.Fragment>
             <AddBoard
               title="Редактировать"
               boardName={this.state.boardName}
               setName={this.setName}
               close={this.closeModal}
               createBoard={this.updateBoard}/>
-          </div>
+          </React.Fragment>
         }
       </div>
     );
@@ -80,3 +73,13 @@ class List extends React.Component {
 }
 
 export default List;
+
+// {this.state.lists.map((list) =>
+//   <form key={list.position} className="form-list">
+//     <div className="list-name">
+//       {list.title}
+//       <i onClick={() => this.setState({isOpen: true})} className="fas fa-edit" />
+//     </div>
+//     <Card cards={list.cards}/>
+//   </form>
+// )}

@@ -41,6 +41,7 @@ class BoardCard extends React.Component {
   setName(e) { this.setState({boardName: e.target.value}) }
 
   async updateBoard() {
+    this.setState({isOpen: false});
     console.log(`Редактировали доску с id: ${this.props.id} и token: ${this.props.token} имя: ${this.state.boardName}`);
     try {
       let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}`, {
@@ -65,32 +66,34 @@ class BoardCard extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div className="board-card-list">
-            <div className="board-card">
-              <div className="board-card-name">
-                {this.props.title}
-                <div>
-                  <i onClick={() => this.setState({isOpen: true})} className="fas fa-edit mr-1" />
-                  <i onClick={this.deleteBoard} className="fas fa-times"/>
-                </div>
+      <div className="board-card-list">
+        <div className="board-card">
+          <div className="board-card-name">
+            <Link className="board-card-body-link" to={"/" + this.props.token + "/b/" + this.props.id}>{this.props.title}</Link>
+            <div className="dropdown">
+              <button className="btn"
+                      type="button" id="dropdownMenu1" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      <i className="fas fa-ellipsis-h"/>
+              </button>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <span className="dropdown-item" onClick={() => this.setState({isOpen: true})}>Редактировать</span>
+                <span className="dropdown-item" onClick={this.deleteBoard}>Удалить</span>
               </div>
-              <Link className="board-card-body-link" to={"/" + this.props.token + "/b/" + this.props.id}>
-                >>>>>>>>
-              </Link>
-              {this.state.isOpen &&
-                <div>
-                  <AddBoard
-                    title={this.props.id}
-                    boardName={this.state.boardName}
-                    setName={this.setName}
-                    close={this.closeModal}
-                    createBoard={this.updateBoard}/>
-                </div>
-              }
             </div>
+          </div>
+          {this.state.isOpen &&
+            <div>
+              <AddBoard
+                title={this.props.id}
+                boardName={this.state.boardName}
+                setName={this.setName}
+                close={this.closeModal}
+                createBoard={this.updateBoard}/>
+            </div>
+          }
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
