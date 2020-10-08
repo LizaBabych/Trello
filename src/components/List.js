@@ -8,78 +8,105 @@ class List extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isOpen: false,
-      boardName: '',
-      lists: {
-        1591534954824:
-        {id: 1591534954824, cards: {
-          created_at: 1591534966296,
-          description: "s",
-          id: 1591534954824,
-          position: 1,
-          title: "test",
-        }, title: "test", position: 1
-        },
-        1591534954817:
-        {id: 1591534954817, cards: {
-          created_at: 1591534966296,
-          description: "s",
-          id: 1591534954824,
-          position: 1,
-          title: "test",
-        }, title: "test", position: 1
-        },
-      }
+    this.state =
+      {
+        isOpenEdit: false,
+        isOpenAdd: false,
+        isOpenDelete: false,
+        listName: '',
+        position: 2,
+        lists: this.props.lists,
     };
-    this.updateBoard = this.updateBoard.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.addList = this.addList.bind(this);
+    this.closeModalAdd = this.closeModalAdd.bind(this);
     this.setName = this.setName.bind(this);
   }
 
-  async updateBoard(e) {
-    this.setState({isOpen: false, boardName: e.target.value})
+  async updateList(e) {
+    this.setState({isOpen: false, listName: e.target.value, position: this.state.position + 1})
     console.log(`Updated with name: ${this.state.boardName}`);
   }
 
-  closeModal() { this.setState({isOpen: false}) }
+  async addList(e) {
+    this.setState({isOpenAdd: false, listName: e.target.value})
+    console.log(`Create list with name: ${this.state.listName}`);
+    try {
+      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}/list`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.token}`
+        },
+        body: JSON.stringify({
+          "title": this.state.listName,
+          "position": this.state.position,
+        }),
+      });
+      if (!response.ok) {
+          console.log("Error: " + response.status);
+      }
+      let res = await response.json();
+      console.log(res);
+    } catch (error) {
+        alert("Error");
+    }
+  }
 
-  setName(e) { this.setState({boardName: e.target.value}) }
+  async deleteList(id) {
+    this.setState({isOpenDelete: true});
+    console.log(`Delete list list with id: ${id}`);
+    try {
+      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}/list/${id}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.token}`
+        },
+      });
+      if (!response.ok) {
+          console.log("Error: " + response.status);
+      }
+      let res = await response.json();
+      console.log(res);
+    } catch (error) {
+        alert("Error");
+    }
+  }
+
+  closeModal() { this.setState({isOpenEdit: false}) }
+
+  closeModalAdd() { this.setState({isOpenAdd: false}) }
+
+  setName(e) { this.setState({listName: e.target.value}) }
 
   render() {
     return (
-      <div className="list">
-        {Object.keys(this.state.lists).map((list, index) => (
-          <form key={index} className="form-list">
-            <div className="list-name">
-              {list}
-              <i onClick={() => this.setState({isOpen: true})} className="fas fa-edit" />
-            </div>
-          </form>
-        ))}
-        {this.state.isOpen &&
-          <React.Fragment>
-            <AddBoard
-              title="Редактировать"
-              boardName={this.state.boardName}
-              setName={this.setName}
-              close={this.closeModal}
-              createBoard={this.updateBoard}/>
-          </React.Fragment>
-        }
-      </div>
+      <React.Fragment>
+        <div className="list">
+          {Object.keys(this.state.lists).map((list, index) => (
+            <form key={index} className="form-list">
+              <div className="list-name">
+                {this.state.lists[list].title}
+                <span onClick={() => this.deleteList(this.state.lists[list].id)}>Удалить</span>
+              </div>
+              <Card cards={this.state.lists[list].cards}/>
+            </form>
+          ))}
+          {this.state.isOpenAdd &&
+            <React.Fragment>
+              <AddBoard
+                title="Добавить список"
+                boardName={this.state.listName}
+                setName={this.setName}
+                close={this.closeModalAdd}
+                createBoard={this.addList}/>
+            </React.Fragment>
+          }
+        </div>
+        <button onClick={() => this.setState({isOpenAdd: true})}className="btn mt-2 ml-1">Добавить список</button>
+      </React.Fragment>
     );
   }
 }
 
 export default List;
-
-// {this.state.lists.map((list) =>
-//   <form key={list.position} className="form-list">
-//     <div className="list-name">
-//       {list.title}
-//       <i onClick={() => this.setState({isOpen: true})} className="fas fa-edit" />
-//     </div>
-//     <Card cards={list.cards}/>
-//   </form>
-// )}
