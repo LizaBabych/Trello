@@ -1,5 +1,5 @@
 import React from 'react';
-import List from '../components/List';
+import Lists from '../components/Lists';
 
 class Board extends React.Component {
   constructor(props) {
@@ -36,9 +36,9 @@ class Board extends React.Component {
     return (
       <React.Fragment>
         {this.state.isLoad &&
-          <div>
-            <List id={this.props.id} token={this.props.token} lists={this.state.lists} />
-          </div>
+          <React.Fragment>
+            <Lists id={this.props.id} token={this.props.token} lists={this.state.lists} />
+          </React.Fragment>
         }
       </React.Fragment>
     );

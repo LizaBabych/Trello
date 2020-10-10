@@ -17,11 +17,11 @@ function AddBoard(props) {
                 onChange={props.setName}
                 type="text"
                 className="form-control mb-2"
-                placeholder="Введите название доски" />
+                placeholder="Введите название" />
               <div className="center">
                 <button onClick={props.createBoard}
                   className="btn btn-sm btn-success">
-                  Создать
+                  Применить
                 </button>
               </div>
             </div>
