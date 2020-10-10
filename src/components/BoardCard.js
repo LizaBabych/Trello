@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import AddBoard from '../components/AddBoard';
+import AddBoard from './AddBoard';
 import '../styles/boardCard.css';
 
 class BoardCard extends React.Component {
@@ -10,10 +10,8 @@ class BoardCard extends React.Component {
       isOpen: false,
       boardName: '',
     };
-    this.closeModal = this.closeModal.bind(this);
     this.updateBoard = this.updateBoard.bind(this);
     this.deleteBoard = this.deleteBoard.bind(this);
-    this.setName = this.setName.bind(this);
   }
 
   async deleteBoard() {
@@ -34,11 +32,8 @@ class BoardCard extends React.Component {
     } catch (error) {
         alert("Error");
     }
+    await this.props.getBoards;
   }
-
-  closeModal() { this.setState({isOpen: false}) }
-
-  setName(e) { this.setState({boardName: e.target.value}) }
 
   async updateBoard() {
     this.setState({isOpen: false});
@@ -62,6 +57,7 @@ class BoardCard extends React.Component {
     } catch (error) {
         alert("Error");
     }
+    await this.props.getBoards;
   }
 
   render() {
@@ -84,10 +80,10 @@ class BoardCard extends React.Component {
           {this.state.isOpen &&
             <div>
               <AddBoard
-                title={this.props.id}
+                title="Редактировать доску"
                 boardName={this.state.boardName}
-                setName={this.setName}
-                close={this.closeModal}
+                setName={(e) => this.setState({boardName: e.target.value})}
+                close={() => this.setState({isOpen: false})}
                 createBoard={this.updateBoard}/>
             </div>
           }

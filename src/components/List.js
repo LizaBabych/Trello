@@ -12,11 +12,7 @@ class List extends React.Component {
       listName: '',
     };
     this.updateList = this.updateList.bind(this);
-    this.closeModalUpdate = this.closeModalUpdate.bind(this);
-    this.setName = this.setName.bind(this);
   }
-
-  setName(e) { this.setState({listName: e.target.value}) }
 
   async deleteList() {
     console.log(`Delete list with id: ${this.props.listId}`);
@@ -63,8 +59,6 @@ class List extends React.Component {
     }
   }
 
-  closeModalUpdate() { this.setState({isOpenUpdate: false}) }
-
   render() {
     return (
       <React.Fragment>
@@ -84,8 +78,8 @@ class List extends React.Component {
             <AddBoard
               title="Редактировать список"
               boardName={this.state.listName}
-              setName={this.setName}
-              close={this.closeModalUpdate}
+              setName={(e) => this.setState({listName: e.target.value})}
+              close={() => this.setState({isOpenUpdate: false})}
               createBoard={this.updateList}/>
           }
           </div>

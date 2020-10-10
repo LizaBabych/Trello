@@ -1,6 +1,7 @@
 .board-card-list {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-left: 20px;
 }
 .board-card {
   background-color: #b6cfe0;

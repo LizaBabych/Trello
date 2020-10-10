@@ -8,10 +8,10 @@ class Lists extends React.Component {
   constructor(props) {
     super(props);
     this.state =
-      {
-        isOpenAdd: false,
-        listName: '',
-        lists: this.props.lists,
+    {
+      isOpenAdd: false,
+      listName: '',
+      lists: this.props.lists,
     };
     this.addList = this.addList.bind(this);
     this.closeModalAdd = this.closeModalAdd.bind(this);
@@ -30,6 +30,7 @@ class Lists extends React.Component {
         },
         body: JSON.stringify({
           "title": this.state.listName,
+          "position": 2,
         }),
       });
       if (!response.ok) {
@@ -65,8 +66,8 @@ class Lists extends React.Component {
               <AddBoard
                 title="Добавить список"
                 boardName={this.state.listName}
-                setName={this.setName}
-                close={this.closeModalAdd}
+                setName={(e) => this.setState({listName: e.target.value})}
+                close={() => this.setState({isOpenAdd: false})}
                 createBoard={this.addList}/>
             </React.Fragment>
           }

@@ -9,7 +9,7 @@ function BoardPage(props) {
     <React.Fragment>
       <Header token={props.match.params.token}></Header>
       <div className="sidebar">
-        <Board token={props.match.params.token} id={props.match.params.id}></Board>
+        <Board token={props.match.params.token} id={props.match.params.id} />
       </div>
     </React.Fragment>
   );

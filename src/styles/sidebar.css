@@ -10,7 +10,7 @@
   overflow-x: hidden;
 }
 
-.sidenav .active, .active:hover {
+.active, .active:hover {
   border-radius: 5px;
   background-color: #c5d0e5;
   color: #282b30;
