@@ -8,56 +8,7 @@ class BoardCard extends React.Component {
     super(props);
     this.state = {
       isOpen: false,
-      boardName: '',
     };
-    this.updateBoard = this.updateBoard.bind(this);
-    this.deleteBoard = this.deleteBoard.bind(this);
-  }
-
-  async deleteBoard() {
-    console.log(`Удалили доску с id: ${this.props.id} и token: ${this.props.token}`);
-    try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}`, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
-        },
-      });
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let res = await response.json();
-      console.log(res);
-    } catch (error) {
-        alert("Error");
-    }
-    await this.props.getBoards;
-  }
-
-  async updateBoard() {
-    this.setState({isOpen: false});
-    console.log(`Редактировали доску с id: ${this.props.id} и token: ${this.props.token} имя: ${this.state.boardName}`);
-    try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}`, {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`,
-        },
-        body: JSON.stringify({
-          "title": this.state.boardName,
-        }),
-      });
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let result = await response.json();
-      console.log(result);
-    } catch (error) {
-        alert("Error");
-    }
-    await this.props.getBoards;
   }
 
   render() {
@@ -73,19 +24,17 @@ class BoardCard extends React.Component {
               </span>
               <div className="dropdown-menu" aria-labelledby="dropdownMenu1">
                 <span className="dropdown-item" onClick={() => this.setState({isOpen: true})}>Редактировать</span>
-                <span className="dropdown-item" onClick={this.deleteBoard}>Удалить</span>
+                <span className="dropdown-item" onClick={this.props.deleteBoard}>Удалить</span>
               </div>
             </div>
           </div>
           {this.state.isOpen &&
-            <div>
-              <AddBoard
-                title="Редактировать доску"
-                boardName={this.state.boardName}
-                setName={(e) => this.setState({boardName: e.target.value})}
-                close={() => this.setState({isOpen: false})}
-                createBoard={this.updateBoard}/>
-            </div>
+            <AddBoard
+              title="Редактировать доску"
+              boardName={this.props.boardName}
+              setName={this.props.setName}
+              close={() => this.setState({isOpen: false})}
+              createBoard={this.props.updateBoard}/>
           }
         </div>
       </div>

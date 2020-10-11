@@ -67,6 +67,52 @@ class BoardCards extends React.Component {
     await this.getBoards();
   }
 
+  async deleteBoard(id) {
+    console.log(`Удалили доску с id: ${id} и token: ${this.props.token}`);
+    try {
+      let response = await fetch(`http://localhost:5000/v1/board/${id}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.token}`
+        },
+      });
+      if (!response.ok) {
+          console.log("Error: " + response.status);
+      }
+      let res = await response.json();
+      console.log(res);
+    } catch (error) {
+        alert("Error");
+    }
+    await this.getBoards();
+  }
+
+  async updateBoard(id) {
+    this.setState({isOpen: false});
+    console.log(`Редактировали доску с id: ${id} и token: ${this.props.token} имя: ${this.state.boardName}`);
+    try {
+      let response = await fetch(`http://localhost:5000/v1/board/${id}`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.token}`,
+        },
+        body: JSON.stringify({
+          "title": this.state.boardName,
+        }),
+      });
+      if (!response.ok) {
+          console.log("Error: " + response.status);
+      }
+      let result = await response.json();
+      console.log(result);
+    } catch (error) {
+        alert("Error");
+    }
+    await this.getBoards();
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -74,10 +120,12 @@ class BoardCards extends React.Component {
           <div>
             {this.state.boards.map((board) =>
               <BoardCard key={board.id}
-              token={this.props.token}
-              id={board.id}
-              title={board.title}
-              getBoards={this.getBoards} />
+                token={this.props.token}
+                id={board.id}
+                title={board.title}
+                setName={(e) => this.setState({boardName: e.target.value})}
+                deleteBoard={() => this.deleteBoard(board.id)}
+                updateBoard={() => this.updateBoard(board.id)} />
             )}
             <button className="btn" onClick={() => this.setState({isOpen: true})}>Добавить доску</button>
               {this.state.isOpen &&

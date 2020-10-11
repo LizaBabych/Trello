@@ -8,55 +8,8 @@ class List extends React.Component {
     super(props);
     this.state =
     {
-      isOpenUpdate: false,
-      listName: '',
+      isOpen: false,
     };
-    this.updateList = this.updateList.bind(this);
-  }
-
-  async deleteList() {
-    console.log(`Delete list with id: ${this.props.listId}`);
-    try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.boardId}/list/${this.props.listId}`, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
-        },
-      });
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let res = await response.json();
-      console.log(res);
-    } catch (error) {
-        alert("Error");
-    }
-  }
-
-  async updateList() {
-    this.setState({isOpenUpdate: false});
-    console.log(`Update list with id: ${this.props.listId} and name: ${this.state.listName}`);
-    try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.boardId}/list/${this.props.listId}`, {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
-        },
-        body: JSON.stringify({
-          "title": this.state.listName,
-          "position": 2,
-        }),
-      });
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let res = await response.json();
-      console.log(res);
-    } catch (error) {
-        alert("Error");
-    }
   }
 
   render() {
@@ -70,17 +23,17 @@ class List extends React.Component {
                 <i className="fas fa-ellipsis-h"/>
             </span>
             <div className="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <span className="dropdown-item" onClick={() => this.setState({isOpenUpdate: true})}>Редактировать</span>
-              <span className="dropdown-item" onClick={() => this.deleteList()}>Удалить</span>
+              <span className="dropdown-item" onClick={() => this.setState({isOpen: true})}>Редактировать</span>
+              <span className="dropdown-item" onClick={this.props.deleteList}>Удалить</span>
             </div>
           </div>
-          {this.state.isOpenUpdate &&
+          {this.state.isOpen &&
             <AddBoard
               title="Редактировать список"
-              boardName={this.state.listName}
-              setName={(e) => this.setState({listName: e.target.value})}
-              close={() => this.setState({isOpenUpdate: false})}
-              createBoard={this.updateList}/>
+              boardName={this.props.listName}
+              setName={this.props.setName}
+              close={() => this.setState({isOpen: false})}
+              createBoard={this.props.updateList}/>
           }
           </div>
         <Card cards={this.props.cards}/>
