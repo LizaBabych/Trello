@@ -1,6 +1,7 @@
 import React from 'react';
 import BoardCard from './BoardCard';
 import AddBoard from './AddBoard';
+import '../styles/boardCard.css';
 
 class BoardCards extends React.Component {
 
@@ -116,28 +117,30 @@ class BoardCards extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.isLoad &&
-          <div>
-            {this.state.boards.map((board) =>
-              <BoardCard key={board.id}
-                token={this.props.token}
-                id={board.id}
-                title={board.title}
-                setName={(e) => this.setState({boardName: e.target.value})}
-                deleteBoard={() => this.deleteBoard(board.id)}
-                updateBoard={() => this.updateBoard(board.id)} />
-            )}
-            <button className="btn" onClick={() => this.setState({isOpen: true})}>Добавить доску</button>
-              {this.state.isOpen &&
-                <AddBoard
-                  title="Создание доски"
-                  boardName={this.state.boardName}
+        <div className="board-card-list">
+          {this.state.isLoad &&
+            <React.Fragment>
+              {this.state.boards.map((board) =>
+                <BoardCard key={board.id}
+                  token={this.props.token}
+                  id={board.id}
+                  title={board.title}
                   setName={(e) => this.setState({boardName: e.target.value})}
-                  close={() => this.setState({isOpen: false})}
-                  createBoard={this.createBoard}/>
-              }
-          </div>
-        }
+                  deleteBoard={() => this.deleteBoard(board.id)}
+                  updateBoard={() => this.updateBoard(board.id)} />
+              )}
+            </React.Fragment>
+          }
+        </div>
+        <button className="btn" onClick={() => this.setState({isOpen: true})}>Добавить доску</button>
+          {this.state.isOpen &&
+            <AddBoard
+              title="Создание доски"
+              boardName={this.state.boardName}
+              setName={(e) => this.setState({boardName: e.target.value})}
+              close={() => this.setState({isOpen: false})}
+              createBoard={this.createBoard}/>
+          }
       </React.Fragment>
     );
   }

@@ -1,7 +1,7 @@
 .board-card-list {
   display: flex;
-  justify-content: flex-start;
-  margin-left: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .board-card {
   background-color: #b6cfe0;
@@ -23,11 +23,6 @@
   padding: 5px 5px 5px 15px;
   font-size: 22px;
   cursor: pointer;
-}
-
-.board-card-body {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .board-card-body-link, .board-card-body-link:hover {
