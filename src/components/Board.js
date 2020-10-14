@@ -1,8 +1,8 @@
 import React from 'react';
 import List from './List';
-import AddBoard from './AddBoard';
+import Modal from './Modal';
 import '../styles/list.css';
-import '../styles/createBoard.css';
+import '../styles/modal.css';
 
 class Board extends React.Component {
   constructor(props) {
@@ -126,6 +126,9 @@ class Board extends React.Component {
             {Object.keys(this.state.lists).map((list, index) => (
               <div key={index} className="form-list">
                 <List
+                  boardId={this.props.id}
+                  listId={this.state.lists[list].id}
+                  token={this.props.token}
                   title={this.state.lists[list].title}
                   listName={this.state.listName}
                   setName={(e) => this.setState({listName: e.target.value})}
@@ -136,12 +139,12 @@ class Board extends React.Component {
             ))}
             {this.state.isOpen &&
               <React.Fragment>
-                <AddBoard
+                <Modal
                   title="Добавить список"
-                  boardName={this.state.listName}
+                  name={this.state.listName}
                   setName={(e) => this.setState({listName: e.target.value})}
                   close={() => this.setState({isOpen: false})}
-                  createBoard={this.addList}/>
+                  execute={this.addList}/>
               </React.Fragment>
             }
           </div>

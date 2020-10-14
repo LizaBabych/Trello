@@ -21,7 +21,7 @@ function Header(props) {
           </li>
           <li className="nav-item">
             <button className="nav-button">
-               <i className="fas fa-plus"></i>
+               <i className="fas fa-plus"/>
             </button>
           </li>
         </ul>

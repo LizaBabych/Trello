@@ -8,7 +8,7 @@ function Home(props) {
   const token = props.match.params.token;
   return (
     <React.Fragment>
-      <Header token={token}></Header>
+      <Header token={token} />
       <div className="sidebar">
         <div className="sidenav">
           <Link to={token + "/boards"}>Доски</Link>

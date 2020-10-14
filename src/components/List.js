@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from './Card';
-import AddBoard from './AddBoard';
+import Cards from './Cards';
+import Modal from './Modal';
 import '../styles/list.css';
 
 class List extends React.Component {
@@ -28,15 +28,15 @@ class List extends React.Component {
             </div>
           </div>
           {this.state.isOpen &&
-            <AddBoard
+            <Modal
               title="Редактировать список"
-              boardName={this.props.listName}
+              name={this.props.listName}
               setName={this.props.setName}
               close={() => this.setState({isOpen: false})}
-              createBoard={this.props.updateList}/>
+              execute={this.props.updateList}/>
           }
           </div>
-        <Card cards={this.props.cards}/>
+        <Cards cards={this.props.cards} boardId={this.props.boardId} listId={this.props.listId} token={this.props.token} />
       </React.Fragment>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import BoardCard from './BoardCard';
-import AddBoard from './AddBoard';
-import '../styles/boardCard.css';
+import Modal from './Modal';
+import '../styles/modal.css';
 
 class BoardCards extends React.Component {
 
@@ -134,12 +134,12 @@ class BoardCards extends React.Component {
         </div>
         <button className="btn" onClick={() => this.setState({isOpen: true})}>Добавить доску</button>
           {this.state.isOpen &&
-            <AddBoard
+            <Modal
               title="Создание доски"
-              boardName={this.state.boardName}
+              name={this.state.boardName}
               setName={(e) => this.setState({boardName: e.target.value})}
               close={() => this.setState({isOpen: false})}
-              createBoard={this.createBoard}/>
+              execute={this.createBoard}/>
           }
       </React.Fragment>
     );

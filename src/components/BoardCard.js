@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import AddBoard from './AddBoard';
+import Modal from './Modal';
 import '../styles/boardCard.css';
 
 class BoardCard extends React.Component {
@@ -28,12 +28,12 @@ class BoardCard extends React.Component {
           </div>
         </div>
         {this.state.isOpen &&
-          <AddBoard
+          <Modal
             title="Редактировать доску"
-            boardName={this.props.boardName}
+            name={this.props.boardName}
             setName={this.props.setName}
             close={() => this.setState({isOpen: false})}
-            createBoard={this.props.updateBoard}/>
+            execute={this.props.updateBoard}/>
         }
       </div>
     );
