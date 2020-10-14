@@ -15,6 +15,27 @@ class Cards extends React.Component {
     this.addCard = this.addCard.bind(this);
   }
 
+  async getCard() {
+    try {
+      let response = await fetch(`http://localhost:5000/v1/board/${this.props.boardId}`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.token}`
+        },
+      });
+      if (!response.ok) {
+          console.log("Error: " + response.status);
+      }
+      const result = await response.json();
+      this.setState({cards: result.lists[this.props.listId].cards});
+    } catch (error) {
+        alert("Error");
+    }
+    console.log("Списки на доске:");
+    console.log(this.state.cards);
+  }
+
   async addCard(e) {
     this.setState({isOpen: false, cardName: e.target.value})
     console.log(`Create card with name: ${this.state.cardName}`);
@@ -40,6 +61,7 @@ class Cards extends React.Component {
     } catch (error) {
         alert("Error");
     }
+    await this.getCard();
   }
 
   async deleteCard(id) {
@@ -60,6 +82,7 @@ class Cards extends React.Component {
     } catch (error) {
         alert("Error");
     }
+    await this.getCard();
   }
 
   async updateCard(id) {
@@ -85,6 +108,7 @@ class Cards extends React.Component {
     } catch (error) {
         alert("Error");
     }
+    await this.getCard();
   }
 
   render() {
