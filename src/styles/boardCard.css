@@ -4,16 +4,36 @@
   flex-wrap: wrap;
 }
 .board-card {
-  background-color: #b6cfe0;
   border-radius: 5px;
   margin: 0 2% 2% 0;
   width: 250px;
   height: 150px;
 }
 
-.board-card:hover {
-  cursor: pointer;
-  background-color: #9fc5e0;
+.default { background-color: #b6cfe0; }
+
+.red { background-color: red; }
+
+.yellow { background-color: yellow; }
+
+.pink { background-color: pink; }
+
+.green { background-color: green; }
+
+.board-card:hover { cursor: pointer; }
+
+.dark { color: #5e5e5e; }
+
+.dark:hover { color: #827d7d }
+
+.default:hover { background-color: #9fc5e0; }
+
+.right {
+   position: absolute;
+   transform: translate3d(111px, 0px, 0px);
+   top: 0px;
+   left: 0px;
+   will-change: transform;
 }
 
 .board-card-name {
@@ -31,10 +51,6 @@
   font-size: 24px;
   text-decoration: none;
 }
-.board-card-body-link:hover {
-  color: #35133b;
-}
+.board-card-body-link:hover { color: #35133b; }
 
-i {
-  cursor: pointer;
-}
+i { cursor: pointer; }
