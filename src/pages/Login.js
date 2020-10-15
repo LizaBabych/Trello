@@ -34,6 +34,7 @@ class Login extends React.Component {
                let res = await response.json();
                this.setState({ token: res.token });
                console.log(res);
+               window.location.assign(`http://localhost:3000/${this.state.token}`);
              } catch (error) {
                  alert("Error");
              }
@@ -73,7 +74,6 @@ class Login extends React.Component {
                  <button type="submit" className="btn btn-success">
                    Войти
                  </button>
-                 <Link to={"/" + this.state.token}>Войти</Link>
                </div>
              </form>
            )}
@@ -84,3 +84,4 @@ class Login extends React.Component {
 };
 
 export default Login;
+// <Link to={"/" + this.state.token}>Войти</Link>

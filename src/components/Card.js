@@ -5,10 +5,13 @@ import '../styles/card.css';
 class Card extends React.Component {
   constructor(props) {
     super(props);
-    this.state =
-    {
-      isOpen: false,
-    };
+    this.state = { isOpen: false };
+    this.getDate = this.getDate.bind(this);
+  }
+
+  getDate(date) {
+    return(' ' + date.getDate() + '.' + +(date.getMonth() + 1) + '.' + date.getFullYear() + ' '
+    + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
   }
 
   render() {
@@ -26,6 +29,9 @@ class Card extends React.Component {
               <span className="dropdown-item" onClick={this.props.deleteCard}>Удалить</span>
             </div>
           </div>
+        </div>
+        <div className="created mt-2">
+          {this.getDate(new Date(this.props.created))}
         </div>
         {this.state.isOpen &&
           <React.Fragment>

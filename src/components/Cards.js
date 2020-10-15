@@ -118,6 +118,7 @@ class Cards extends React.Component {
           <div key={index} className="card">
             <Card
               title={this.state.cards[card].title}
+              created={this.state.cards[card].created_at}
               cardName={this.state.cardName}
               setName={(e) => this.setState({cardName: e.target.value})}
               deleteCard={() => this.deleteCard(this.state.cards[card].id)}

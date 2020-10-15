@@ -15,11 +15,10 @@
 
 .name span {
   cursor: pointer;
-  font-family: 'Lobster', cursive;  
+  font-family: 'Lobster', cursive;
 }
 
 .created {
-  padding: 5px;
-  background-color: #de5b5b;
-  border-radius: 3px;
+  color: #5e2525;
+  font-size: 12px;
 }
