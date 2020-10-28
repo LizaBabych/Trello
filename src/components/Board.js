@@ -23,10 +23,10 @@ class Board extends React.Component {
     await this.getBoard();
   }
 
-  async getBoard() {
+  async sendRequest(method, url) {
     try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}`, {
-        method: "GET",
+      let response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.props.token}`
@@ -35,22 +35,16 @@ class Board extends React.Component {
       if (!response.ok) {
           console.log("Error: " + response.status);
       }
-      const result = await response.json();
-      this.setState({isLoad: true, users: result.users, lists: result.lists});
-      this.setState({position: Object.keys(this.state.lists).length});
+      return await response.json();
     } catch (error) {
         alert("Error");
     }
-    console.log("Списки на доске:");
-    console.log(this.state.lists);
   }
 
-  async addList(e) {
-    this.setState({isOpen: false, listName: e.target.value})
-    console.log(`Create list with name: ${this.state.listName}`);
+  async sendPostRequest(method, url) {
     try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}/list`, {
-        method: "POST",
+      let response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.props.token}`
@@ -63,58 +57,40 @@ class Board extends React.Component {
       if (!response.ok) {
           console.log("Error: " + response.status);
       }
-      let result = await response.json();
-      this.setState({position: Object.keys(this.state.lists).length + 1});
-      console.log(result);
+      let res = await response.json();
+      console.log(res);
+      return res;
     } catch (error) {
         alert("Error");
     }
-    await this.getBoard();
+  }
+
+  async getBoard() {
+    const result = await this.sendRequest("GET", `http://localhost:5000/v1/board/${this.props.id}`);
+    this.setState({isLoad: true, users: result.users, lists: result.lists});
+    this.setState({position: Object.keys(this.state.lists).length});
+    console.log("Списки на доске:");
+    console.log(this.state.lists);
   }
 
   async deleteList(id) {
     console.log(`Delete list with id: ${id}`);
-    try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}/list/${id}`, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
-        },
-      });
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let res = await response.json();
-      console.log(res);
-    } catch (error) {
-        alert("Error");
-    }
+    const result = await this.sendRequest("DELETE", `http://localhost:5000/v1/board/${this.props.id}/list/${id}`);
+    await this.getBoard();
+  }
+
+  async addList(e) {
+    this.setState({isOpen: false, listName: e.target.value})
+    console.log(`Create list with name: ${this.state.listName}`);
+    const result = await this.sendPostRequest("POST", `http://localhost:5000/v1/board/${this.props.id}/list`);
+    this.setState({position: Object.keys(this.state.lists).length + 1});
     await this.getBoard();
   }
 
   async updateList(id) {
     this.setState({isOpen: false});
     console.log(`Update list with id: ${id} and name: ${this.state.listName}`);
-    try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}/list/${id}`, {
-        method: "PUT",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
-        },
-        body: JSON.stringify({
-          "title": this.state.listName,
-        }),
-      });
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let res = await response.json();
-      console.log(res);
-    } catch (error) {
-        alert("Error");
-    }
+    const result = await this.sendPostRequest("PUT", `http://localhost:5000/v1/board/${this.props.id}/list/${id}`);
     await this.getBoard();
   }
 

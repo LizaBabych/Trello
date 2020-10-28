@@ -15,10 +15,10 @@ class Cards extends React.Component {
     this.addCard = this.addCard.bind(this);
   }
 
-  async getCard() {
+  async sendRequest(method, url) {
     try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.boardId}`, {
-        method: "GET",
+      let response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.props.token}`
@@ -27,13 +27,23 @@ class Cards extends React.Component {
       if (!response.ok) {
           console.log("Error: " + response.status);
       }
-      const result = await response.json();
-      this.setState({cards: result.lists[this.props.listId].cards});
+      return await response.json();
     } catch (error) {
         alert("Error");
     }
+  }
+
+  async getCard() {
+    const result = await this.sendRequest("GET", `http://localhost:5000/v1/board/${this.props.boardId}`);
+    this.setState({cards: result.lists[this.props.listId].cards});
     console.log("Списки на доске:");
     console.log(this.state.cards);
+  }
+
+  async deleteCard(id) {
+    console.log(`Delete card with id: ${id}`);
+    const result = await this.sendRequest("DELETE", `http://localhost:5000/v1/board/${this.props.boardId}/card/${id}`);
+    await this.getCard();
   }
 
   async addCard(e) {
@@ -53,27 +63,6 @@ class Cards extends React.Component {
         }),
       });
       this.setState({position: Object.keys(this.state.cards).length});
-      if (!response.ok) {
-          console.log("Error: " + response.status);
-      }
-      let result = await response.json();
-      console.log(result);
-    } catch (error) {
-        alert("Error");
-    }
-    await this.getCard();
-  }
-
-  async deleteCard(id) {
-    console.log(`Delete card with id: ${id}`);
-    try {
-      let response = await fetch(`http://localhost:5000/v1/board/${this.props.boardId}/card/${id}`, {
-        method: "DELETE",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
-        },
-      });
       if (!response.ok) {
           console.log("Error: " + response.status);
       }
