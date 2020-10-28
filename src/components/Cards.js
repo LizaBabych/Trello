@@ -117,6 +117,7 @@ class Cards extends React.Component {
         {Object.keys(this.state.cards).map((card, index) => (
           <div key={index} className="card">
             <Card
+              users={this.state.cards[card].users}
               title={this.state.cards[card].title}
               created={this.state.cards[card].created_at}
               cardName={this.state.cardName}

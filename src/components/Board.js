@@ -14,6 +14,7 @@ class Board extends React.Component {
       lists: [],
       listName: '',
       position: 0,
+      currentList: {},
     };
     this.getBoard = this.getBoard.bind(this);
     this.addList = this.addList.bind(this);
@@ -37,7 +38,6 @@ class Board extends React.Component {
       }
       const result = await response.json();
       this.setState({isLoad: true, users: result.users, lists: result.lists});
-      this.setState({position: Object.keys(this.state.lists).length});
     } catch (error) {
         alert("Error");
     }
@@ -86,6 +86,7 @@ class Board extends React.Component {
           console.log("Error: " + response.status);
       }
       let res = await response.json();
+      this.setState({position: Object.keys(this.state.lists).length - 1});
       console.log(res);
     } catch (error) {
         alert("Error");
@@ -118,13 +119,71 @@ class Board extends React.Component {
     await this.getBoard();
   }
 
+  dragStartHandler(e, list) { this.setState({currentList: list}) }
+
+  dragEndHandler(e) { e.target.style.background='white' }
+
+  dragOverHandler(e) {
+    e.preventDefault();
+    e.target.style.background='lightgray'
+  }
+
+  async dropHandler(e, list) {
+    e.preventDefault();
+    e.target.style.background='white';
+    let a = { id: 0, position: 0 };
+    let b = { id: 0, position: 0 };
+    Object.keys(this.state.lists).map(i => {
+      if (this.state.lists[i].id === this.state.currentList.id) {
+        a.position = list.position;
+        a.id = this.state.currentList.id;
+      }
+      if (this.state.lists[i].id === list.id) {
+        b.position = this.state.currentList.position;
+        b.id = list.id;
+      }
+    })
+    let body = [a, b];
+    console.log(body);
+    //await this.changeLists(body);
+  }
+
+  async changeLists(body) {
+    try {
+      let response = await fetch(`http://localhost:5000/v1/board/${this.props.id}/list`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.props.token}`
+        },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+          console.log("Error: " + response.status);
+      }
+      let res = await response.json();
+      console.log(res);
+    } catch (error) {
+        alert("Error");
+    }
+    await this.getBoard();
+  }
+
   render() {
     return (
       <React.Fragment>
         {this.state.isLoad &&
           <div className="list">
             {Object.keys(this.state.lists).map((list, index) => (
-              <div key={index} className="form-list">
+              <div className="form-list"
+                key={index}
+                draggable={true}
+                onDragStart={(e) => this.dragStartHandler(e, this.state.lists[list])}
+                onDragLeave={(e) => this.dragEndHandler(e)}
+                onDragEnd={(e) => this.dragEndHandler(e)}
+                onDragOver={(e) => this.dragOverHandler(e)}
+                onDrop={(e) => this.dropHandler(e, this.state.lists[list])}
+                >
                 <List
                   boardId={this.props.id}
                   listId={this.state.lists[list].id}
