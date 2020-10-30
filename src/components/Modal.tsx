@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/modal.css';
 
-function Modal(props) {
+function Modal(props): any {
   return (
       <div className="createBoard">
         <div className='modal'/>

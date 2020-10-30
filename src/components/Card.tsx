@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import Modal from './Modal';
 import '../styles/card.css';
 
-function Card(props) {
+function Card(props): any {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  function getDate(created) {
+  function getDate(created: number) {
     let date = new Date(created);
     return(' ' + date.getDate() + '.' + +(date.getMonth() + 1) + '.' + date.getFullYear() + ' '
     + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/team.jpg';
 import '../styles/sidebar.css';
 
-function Home(props) {
-  const token = props.match.params.token;
+function Home(props): any {
+  const token: number = props.match.params.token;
   return (
     <React.Fragment>
       <Header token={token} />

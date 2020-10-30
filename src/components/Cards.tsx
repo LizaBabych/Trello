@@ -3,13 +3,13 @@ import Modal from './Modal';
 import Card from './Card';
 import '../styles/card.css';
 
-function Cards(props) {
+function Cards(props): any{
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [cardName, setCardName] = useState('');
-  const [cards, setCards] = useState(props.cards);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [cardName, setCardName] = useState<string>('');
+  const [cards, setCards] = useState<object>(props.cards);
 
-  async function sendRequest(method, url) {
+  async function sendRequest(method: string, url: string) {
     try {
       let response = await fetch(url, {
         method: method,
@@ -31,16 +31,16 @@ function Cards(props) {
     const result = await sendRequest("GET", `http://localhost:5000/v1/board/${props.boardId}`);
     setCards(result.lists[props.listId].cards);
     console.log("Списки на доске:");
-    console.log(cards);
+    console.log(result.lists[props.listId].cards);
   }
 
-  async function deleteCard(id) {
+  async function deleteCard(id: number) {
     console.log(`Delete card with id: ${id}`);
-    const result = await sendRequest("DELETE", `http://localhost:5000/v1/board/${props.boardId}/card/${id}`);
+    await sendRequest("DELETE", `http://localhost:5000/v1/board/${props.boardId}/card/${id}`);
     await getCard();
   }
 
-  async function addCard(e) {
+  async function addCard(e: React.ChangeEvent<HTMLInputElement>) {
     setIsOpen(false);
     setCardName(e.target.value);
     console.log(`Create card with name: ${cardName}`);
@@ -68,7 +68,7 @@ function Cards(props) {
     await getCard();
   }
 
-  async function updateCard(id) {
+  async function updateCard(id: number) {
     setIsOpen(false);
     console.log(`Update card with id: ${id} and name: ${cardName}`);
     try {
@@ -102,7 +102,7 @@ function Cards(props) {
             title={cards[card].title}
             created={cards[card].created_at}
             cardName={cardName}
-            setName={(e) => setCardName(e.target.value)}
+            setName={(e: React.ChangeEvent<HTMLInputElement>) => setCardName(e.target.value)}
             deleteCard={() => deleteCard(cards[card].id)}
             updateCard={() => updateCard(cards[card].id)}/>
         </div>
@@ -115,9 +115,9 @@ function Cards(props) {
           <Modal
             title="Добавить карточку"
             name={cardName}
-            setName={(e) => setCardName(e.target.value)}
+            setName={(e: React.ChangeEvent<HTMLInputElement>) => setCardName(e.target.value)}
             close={() => setIsOpen(false)}
-            execute={(e) => addCard(e)}/>
+            execute={(e: React.ChangeEvent<HTMLInputElement>) => addCard(e)}/>
         </React.Fragment>
       }
     </React.Fragment>

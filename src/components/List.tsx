@@ -3,9 +3,9 @@ import Cards from './Cards';
 import Modal from './Modal';
 import '../styles/list.css';
 
-function List(props) {
+function List(props): any {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <React.Fragment>

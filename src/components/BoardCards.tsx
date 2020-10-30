@@ -3,18 +3,18 @@ import BoardCard from './BoardCard';
 import Modal from './Modal';
 import '../styles/modal.css';
 
-function BoardCards(props) {
+function BoardCards(props): any {
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoad, setIsLoad] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoad, setIsLoad] = useState<boolean>(false);
   const [boards, setBoards] = useState<any[]>([]);
-  const [boardName, setBoardName] = useState('');
+  const [boardName, setBoardName] = useState<string>('');
 
   useEffect(() => {
     getBoards();
   }, []);
 
-  async function sendRequest(method, url) {
+  async function sendRequest(method: string, url: string) {
     try {
       let response = await fetch(url, {
         method: method,
@@ -26,15 +26,13 @@ function BoardCards(props) {
       if (!response.ok) {
           console.log("Error: " + response.status);
       }
-      let res = await response.json();
-      console.log(res);
-      return res;
+      return await response.json();
     } catch (error) {
         alert("Error: " + error);
     }
   }
 
-  async function sendPostRequest(method, url) {
+  async function sendPostRequest(method: string, url: string) {
     try {
       let response = await fetch(url, {
         method: method,
@@ -49,7 +47,6 @@ function BoardCards(props) {
       }
       let res = await response.json();
       console.log(res);
-      return res;
     } catch (error) {
         alert("Error: " + error);
     }
@@ -60,16 +57,16 @@ function BoardCards(props) {
     setBoards(result.boards);
     setIsLoad(true);
     console.log("Получили доски: ");
-    console.log(boards);
+    console.log(result.boards);
   }
 
-  async function deleteBoard(id) {
+  async function deleteBoard(id: number) {
     console.log(`Удалили доску с id: ${id} и token: ${props.token}`);
-    const result = await sendRequest("DELETE", `http://localhost:5000/v1/board/${id}`);
+    await sendRequest("DELETE", `http://localhost:5000/v1/board/${id}`);
     await getBoards();
   }
 
-  async function createBoard(e) {
+  async function createBoard(e: React.ChangeEvent<HTMLInputElement>) {
     setIsOpen(false);
     setBoardName(e.target.value);
     console.log(`Created with name: ${boardName}`);
@@ -77,10 +74,10 @@ function BoardCards(props) {
     await getBoards();
   }
 
-  async function updateBoard(id) {
+  async function updateBoard(id: number) {
     setIsOpen(false);
     console.log(`Редактировали доску с id: ${id} и token: ${props.token} имя: ${boardName}`);
-    const result = sendPostRequest("PUT", `http://localhost:5000/v1/board/${id}`);
+    sendPostRequest("PUT", `http://localhost:5000/v1/board/${id}`);
     await getBoards();
   }
 
@@ -94,7 +91,7 @@ function BoardCards(props) {
                 token={props.token}
                 id={board.id}
                 title={board.title}
-                setName={(e) => setBoardName(e.target.value)}
+                setName={(e: React.ChangeEvent<HTMLInputElement>) => setBoardName(e.target.value)}
                 deleteBoard={() => deleteBoard(board.id)}
                 updateBoard={() => updateBoard(board.id)} />
             )}
@@ -106,7 +103,7 @@ function BoardCards(props) {
           <Modal
             title="Создание доски"
             name={boardName}
-            setName={(e) => setBoardName(e.target.value)}
+            setName={(e: React.ChangeEvent<HTMLInputElement>) => setBoardName(e.target.value)}
             close={() => setIsOpen(false)}
             execute={createBoard}/>
         }

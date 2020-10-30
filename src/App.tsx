@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import BoardPage from './pages/BoardPage';
 
-function App() {
+const App: React.FC = () =>{
   return (
     <div className="App">
       <BrowserRouter>

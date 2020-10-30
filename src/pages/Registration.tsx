@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-function Registration() {
+const Registration: React.FC = () => {
   return (
     <div className="form">
       <p className="text-mut">Регистрация в MyTrello</p>

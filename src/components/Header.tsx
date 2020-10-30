@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/header.css';
 
-function Header(props) {
+function Header(props): any {
   return (
     <nav className="navbar navbar-expand-lg fixed-top back-header">
       <div className="collapse navbar-collapse">

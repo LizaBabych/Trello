@@ -3,7 +3,7 @@ import Board from '../components/Board';
 import Header from '../components/Header';
 import '../styles/sidebar.css';
 
-function BoardPage(props) {
+function BoardPage(props): any {
   console.log(`Страница с токеном: ${props.match.params.token} и id: ${props.match.params.id}`);
   return (
     <React.Fragment>

@@ -4,20 +4,20 @@ import Modal from './Modal';
 import '../styles/list.css';
 import '../styles/modal.css';
 
-function Board(props) {
+function Board(props): any {
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoad, setIsLoad] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [lists, setLists] = useState([]);
-  const [listName, setListName] = useState('');
-  const [position, setPosition] = useState(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoad, setIsLoad] = useState<boolean>(false);
+  const [users, setUsers] = useState<object>({});
+  const [lists, setLists] = useState<object>({});
+  const [listName, setListName] = useState<string>('');
+  const [position, setPosition] = useState<number>(0);
 
   useEffect(() => {
     getBoard();
   }, []);
 
-  async function sendRequest(method, url) {
+  async function sendRequest(method: string, url: string) {
     try {
       let response = await fetch(url, {
         method: method,
@@ -35,7 +35,7 @@ function Board(props) {
     }
   }
 
-  async function sendPostRequest(method, url) {
+  async function sendPostRequest(method: string, url: string) {
     try {
       let response = await fetch(url, {
         method: method,
@@ -53,7 +53,6 @@ function Board(props) {
       }
       let res = await response.json();
       console.log(res);
-      return res;
     } catch (error) {
         alert("Error");
     }
@@ -66,28 +65,28 @@ function Board(props) {
     setLists(result.lists);
     setPosition(Object.keys(lists).length);
     console.log("Списки на доске: ");
-    console.log(lists);
+    console.log(result.lists);
   }
 
-  async function deleteList(id) {
+  async function deleteList(id: number) {
     console.log(`Delete list with id: ${id}`);
-    const result = await sendRequest("DELETE", `http://localhost:5000/v1/board/${props.id}/list/${id}`);
+    await sendRequest("DELETE", `http://localhost:5000/v1/board/${props.id}/list/${id}`);
     await getBoard();
   }
 
-  async function addList(e) {
+  async function addList(e: React.ChangeEvent<HTMLInputElement>) {
     setIsOpen(false);
     setListName(e.target.value);
     console.log(`Create list with name: ${listName}`);
-    const result = await sendPostRequest("POST", `http://localhost:5000/v1/board/${props.id}/list`);
+    await sendPostRequest("POST", `http://localhost:5000/v1/board/${props.id}/list`);
     setPosition(Object.keys(lists).length + 1);
     await getBoard();
   }
 
-  async function updateList(id) {
+  async function updateList(id: number) {
     setIsOpen(false);
     console.log(`Update list with id: ${id} and name: ${listName}`);
-    const result = await sendPostRequest("PUT", `http://localhost:5000/v1/board/${props.id}/list/${id}`);
+    await sendPostRequest("PUT", `http://localhost:5000/v1/board/${props.id}/list/${id}`);
     await getBoard();
   }
 
@@ -114,7 +113,7 @@ function Board(props) {
               <Modal
                 title="Добавить список"
                 name={listName}
-                setName={(e) => setListName(e.target.value)}
+                setName={(e: React.ChangeEvent<HTMLInputElement>) => setListName(e.target.value)}
                 close={() => setIsOpen(false)}
                 execute={addList}/>
             </React.Fragment>

@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import Modal from './Modal';
 import '../styles/boardCard.css';
 
-function BoardCard(props) {
+function BoardCard(props): any {
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [color, setColor] = useState("default");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [color, setColor] = useState<string>("default");
 
   return (
     <div className={"board-card " + color}>

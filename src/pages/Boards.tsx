@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import '../styles/sidebar.css';
 import '../styles/modal.css';
 
-function Boards(props) {
-  const token = props.match.params.token;
+function Boards(props): any {
+  const token: number = props.match.params.token;
 
   return (
     <React.Fragment>

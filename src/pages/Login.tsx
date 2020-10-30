@@ -1,9 +1,8 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Link } from 'react-router-dom';
 
-function Login(props) {
+const Login: React.FC = (props) => {
   return (
     <div className="form">
       <p className="text-mut">Вход в MyTrello</p>
