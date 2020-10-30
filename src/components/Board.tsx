@@ -4,7 +4,12 @@ import Modal from './Modal';
 import '../styles/list.css';
 import '../styles/modal.css';
 
-function Board(props): any {
+interface IPropsBoard {
+  token: number,
+  id: number,
+}
+
+const Board: React.FC<IPropsBoard> = (props) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoad, setIsLoad] = useState<boolean>(false);
@@ -102,7 +107,7 @@ function Board(props): any {
                 token={props.token}
                 title={lists[list].title}
                 listName={listName}
-                setName={(e) => setListName(e.target.value)}
+                setName={(e: React.ChangeEvent<HTMLInputElement>) => setListName(e.target.value)}
                 deleteList={() => deleteList(lists[list].id)}
                 updateList={() => updateList(lists[list].id)}
                 cards={lists[list].cards}/>

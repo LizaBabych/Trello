@@ -1,7 +1,15 @@
 import React from 'react';
 import '../styles/modal.css';
 
-function Modal(props): any {
+// interface IPropsModal {
+//   title: string,
+//   name: string,
+//   setName(e: React.ChangeEvent<HTMLInputElement>): void,
+//   close(): void,
+//   execute(e: React.ChangeEvent<HTMLInputElement>): any,
+// }
+
+const Modal = (props) =>{
   return (
       <div className="createBoard">
         <div className='modal'/>

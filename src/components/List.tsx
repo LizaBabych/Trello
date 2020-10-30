@@ -3,7 +3,19 @@ import Cards from './Cards';
 import Modal from './Modal';
 import '../styles/list.css';
 
-function List(props): any {
+interface IPropsList {
+  boardId: number,
+  listId: number,
+  token: number,
+  title: string,
+  listName: string,
+  setName(e: React.ChangeEvent<HTMLInputElement>): void,
+  deleteList(): void,
+  updateList(id: number): void,
+  cards: object,
+}
+
+const List: React.FC<IPropsList> = (props) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

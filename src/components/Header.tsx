@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/header.css';
 
-function Header(props): any {
+const Header: React.FC<{token: number}> = (props) => {
   return (
     <nav className="navbar navbar-expand-lg fixed-top back-header">
       <div className="collapse navbar-collapse">

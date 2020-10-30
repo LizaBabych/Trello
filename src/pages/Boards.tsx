@@ -10,7 +10,7 @@ function Boards(props): any {
 
   return (
     <React.Fragment>
-      <Header token={token}></Header>
+      <Header token={token} />
       <div className="sidebar">
         <div className="sidenav">
           <a className="active">Доски</a>
