@@ -66,7 +66,7 @@ function Board(props) {
     setLists(result.lists);
     setPosition(Object.keys(lists).length);
     console.log("Списки на доске: ");
-    console.log(result.lists);
+    console.log(lists);
   }
 
   async function deleteList(id) {

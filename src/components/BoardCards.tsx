@@ -7,7 +7,7 @@ function BoardCards(props) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
-  const [boards, setBoards] = useState([]);
+  const [boards, setBoards] = useState<any[]>([]);
   const [boardName, setBoardName] = useState('');
 
   useEffect(() => {
