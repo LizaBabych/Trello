@@ -1,35 +1,29 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import List from './List';
 import Modal from './Modal';
 import '../styles/list.css';
 import '../styles/modal.css';
 
-class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoad: false,
-      isOpen: false,
-      users: [],
-      lists: [],
-      listName: '',
-      position: 0,
-    };
-    this.getBoard = this.getBoard.bind(this);
-    this.addList = this.addList.bind(this);
-  }
+function Board(props) {
 
-  async componentDidMount() {
-    await this.getBoard();
-  }
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [lists, setLists] = useState([]);
+  const [listName, setListName] = useState('');
+  const [position, setPosition] = useState(0);
 
-  async sendRequest(method, url) {
+  useEffect(() => {
+    getBoard();
+  }, []);
+
+  async function sendRequest(method, url) {
     try {
       let response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
+          'Authorization': `Bearer ${props.token}`
         },
       });
       if (!response.ok) {
@@ -41,17 +35,17 @@ class Board extends React.Component {
     }
   }
 
-  async sendPostRequest(method, url) {
+  async function sendPostRequest(method, url) {
     try {
       let response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
+          'Authorization': `Bearer ${props.token}`
         },
         body: JSON.stringify({
-          "title": this.state.listName,
-          "position": this.state.position + 1,
+          "title": listName,
+          "position": position + 1,
         }),
       });
       if (!response.ok) {
@@ -65,70 +59,71 @@ class Board extends React.Component {
     }
   }
 
-  async getBoard() {
-    const result = await this.sendRequest("GET", `http://localhost:5000/v1/board/${this.props.id}`);
-    this.setState({isLoad: true, users: result.users, lists: result.lists});
-    this.setState({position: Object.keys(this.state.lists).length});
-    console.log("Списки на доске:");
-    console.log(this.state.lists);
+  async function getBoard() {
+    const result = await sendRequest("GET", `http://localhost:5000/v1/board/${props.id}`);
+    setIsLoad(true);
+    setUsers(result.users);
+    setLists(result.lists);
+    setPosition(Object.keys(lists).length);
+    console.log("Списки на доске: ");
+    console.log(result.lists);
   }
 
-  async deleteList(id) {
+  async function deleteList(id) {
     console.log(`Delete list with id: ${id}`);
-    const result = await this.sendRequest("DELETE", `http://localhost:5000/v1/board/${this.props.id}/list/${id}`);
-    await this.getBoard();
+    const result = await sendRequest("DELETE", `http://localhost:5000/v1/board/${props.id}/list/${id}`);
+    await getBoard();
   }
 
-  async addList(e) {
-    this.setState({isOpen: false, listName: e.target.value})
-    console.log(`Create list with name: ${this.state.listName}`);
-    const result = await this.sendPostRequest("POST", `http://localhost:5000/v1/board/${this.props.id}/list`);
-    this.setState({position: Object.keys(this.state.lists).length + 1});
-    await this.getBoard();
+  async function addList(e) {
+    setIsOpen(false);
+    setListName(e.target.value);
+    console.log(`Create list with name: ${listName}`);
+    const result = await sendPostRequest("POST", `http://localhost:5000/v1/board/${props.id}/list`);
+    setPosition(Object.keys(lists).length + 1);
+    await getBoard();
   }
 
-  async updateList(id) {
-    this.setState({isOpen: false});
-    console.log(`Update list with id: ${id} and name: ${this.state.listName}`);
-    const result = await this.sendPostRequest("PUT", `http://localhost:5000/v1/board/${this.props.id}/list/${id}`);
-    await this.getBoard();
+  async function updateList(id) {
+    setIsOpen(false);
+    console.log(`Update list with id: ${id} and name: ${listName}`);
+    const result = await sendPostRequest("PUT", `http://localhost:5000/v1/board/${props.id}/list/${id}`);
+    await getBoard();
   }
 
-  render() {
-    return (
-      <React.Fragment>
-        {this.state.isLoad &&
-          <div className="list">
-            {Object.keys(this.state.lists).map((list, index) => (
-              <div key={index} className="form-list">
-                <List
-                  boardId={this.props.id}
-                  listId={this.state.lists[list].id}
-                  token={this.props.token}
-                  title={this.state.lists[list].title}
-                  listName={this.state.listName}
-                  setName={(e) => this.setState({listName: e.target.value})}
-                  deleteList={() => this.deleteList(this.state.lists[list].id)}
-                  updateList={() => this.updateList(this.state.lists[list].id)}
-                  cards={this.state.lists[list].cards}/>
-              </div>
-            ))}
-            {this.state.isOpen &&
-              <React.Fragment>
-                <Modal
-                  title="Добавить список"
-                  name={this.state.listName}
-                  setName={(e) => this.setState({listName: e.target.value})}
-                  close={() => this.setState({isOpen: false})}
-                  execute={this.addList}/>
-              </React.Fragment>
-            }
-          </div>
-        }
-        <button onClick={() => this.setState({isOpen: true})}className="btn mt-2 ml-1">Добавить список</button>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      {isLoad &&
+        <div className="list">
+          {Object.keys(lists).map((list, index) => (
+            <div key={index} className="form-list">
+              <List
+                boardId={props.id}
+                listId={lists[list].id}
+                token={props.token}
+                title={lists[list].title}
+                listName={listName}
+                setName={(e) => setListName(e.target.value)}
+                deleteList={() => deleteList(lists[list].id)}
+                updateList={() => updateList(lists[list].id)}
+                cards={lists[list].cards}/>
+            </div>
+          ))}
+          {isOpen &&
+            <React.Fragment>
+              <Modal
+                title="Добавить список"
+                name={listName}
+                setName={(e) => setListName(e.target.value)}
+                close={() => setIsOpen(false)}
+                execute={addList}/>
+            </React.Fragment>
+          }
+        </div>
+      }
+      <button onClick={() => setIsOpen(true)}className="btn mt-2 ml-1">Добавить список</button>
+    </React.Fragment>
+  );
 }
 
 export default Board;

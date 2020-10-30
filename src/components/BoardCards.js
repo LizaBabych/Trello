@@ -1,33 +1,26 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import BoardCard from './BoardCard';
 import Modal from './Modal';
 import '../styles/modal.css';
 
-class BoardCards extends React.Component {
+function BoardCards(props) {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoad: false,
-      isOpen: false,
-      boards: [],
-      boardName: '',
-    };
-    this.getBoards = this.getBoards.bind(this);
-    this.createBoard = this.createBoard.bind(this);
-  }
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
+  const [boards, setBoards] = useState([]);
+  const [boardName, setBoardName] = useState('');
 
-  async componentDidMount() {
-    await this.getBoards();
-  }
+  useEffect(() => {
+    getBoards();
+  }, []);
 
-  async sendRequest(method, url) {
+  async function sendRequest(method, url) {
     try {
       let response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
+          'Authorization': `Bearer ${props.token}`
         },
       });
       if (!response.ok) {
@@ -41,15 +34,15 @@ class BoardCards extends React.Component {
     }
   }
 
-  async sendPostRequest(method, url) {
+  async function sendPostRequest(method, url) {
     try {
       let response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.props.token}`
+          'Authorization': `Bearer ${props.token}`
         },
-        body: JSON.stringify({ "title": this.state.boardName }),
+        body: JSON.stringify({ "title": boardName }),
       });
       if (!response.ok) {
           console.log("Error: " + response.status);
@@ -62,63 +55,63 @@ class BoardCards extends React.Component {
     }
   }
 
-  async getBoards() {
-    const result = await this.sendRequest("GET", "http://localhost:5000/v1/board");
-    this.setState({boards: result.boards, isLoad: true});
+  async function getBoards() {
+    const result = await sendRequest("GET", "http://localhost:5000/v1/board");
+    setBoards(result.boards);
+    setIsLoad(true);
     console.log("Получили доски: ");
-    console.log(this.state.boards);
+    console.log(boards);
   }
 
-  async deleteBoard(id) {
-    console.log(`Удалили доску с id: ${id} и token: ${this.props.token}`);
-    const result = await this.sendRequest("DELETE", `http://localhost:5000/v1/board/${id}`);
-    await this.getBoards();
+  async function deleteBoard(id) {
+    console.log(`Удалили доску с id: ${id} и token: ${props.token}`);
+    const result = await sendRequest("DELETE", `http://localhost:5000/v1/board/${id}`);
+    await getBoards();
   }
 
-  async createBoard(e) {
-    this.setState({isOpen: false, boardName: e.target.value})
-    console.log(`Created with name: ${this.state.boardName}`);
-    this.sendPostRequest("POST", "http://localhost:5000/v1/board");
-    await this.getBoards();
+  async function createBoard(e) {
+    setIsOpen(false);
+    setBoardName(e.target.value);
+    console.log(`Created with name: ${boardName}`);
+    sendPostRequest("POST", "http://localhost:5000/v1/board");
+    await getBoards();
   }
 
-  async updateBoard(id) {
-    this.setState({isOpen: false});
-    console.log(`Редактировали доску с id: ${id} и token: ${this.props.token} имя: ${this.state.boardName}`);
-    const result = this.sendPostRequest("PUT", `http://localhost:5000/v1/board/${id}`);
-    await this.getBoards();
+  async function updateBoard(id) {
+    setIsOpen(false);
+    console.log(`Редактировали доску с id: ${id} и token: ${props.token} имя: ${boardName}`);
+    const result = sendPostRequest("PUT", `http://localhost:5000/v1/board/${id}`);
+    await getBoards();
   }
 
-  render() {
-    return (
-      <React.Fragment>
-        <div className="board-card-list">
-          {this.state.isLoad &&
-            <React.Fragment>
-              {this.state.boards.map((board) =>
-                <BoardCard key={board.id}
-                  token={this.props.token}
-                  id={board.id}
-                  title={board.title}
-                  setName={(e) => this.setState({boardName: e.target.value})}
-                  deleteBoard={() => this.deleteBoard(board.id)}
-                  updateBoard={() => this.updateBoard(board.id)} />
-              )}
-            </React.Fragment>
-          }
-        </div>
-        <button className="btn" onClick={() => this.setState({isOpen: true})}>Добавить доску</button>
-          {this.state.isOpen &&
-            <Modal
-              title="Создание доски"
-              name={this.state.boardName}
-              setName={(e) => this.setState({boardName: e.target.value})}
-              close={() => this.setState({isOpen: false})}
-              execute={this.createBoard}/>
-          }
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <div className="board-card-list">
+        {isLoad &&
+          <React.Fragment>
+            {boards.map((board) =>
+              <BoardCard key={board.id}
+                token={props.token}
+                id={board.id}
+                title={board.title}
+                setName={(e) => setBoardName(e.target.value)}
+                deleteBoard={() => deleteBoard(board.id)}
+                updateBoard={() => updateBoard(board.id)} />
+            )}
+          </React.Fragment>
+        }
+      </div>
+      <button className="btn" onClick={() => setIsOpen(true)}>Добавить доску</button>
+        {isOpen &&
+          <Modal
+            title="Создание доски"
+            name={boardName}
+            setName={(e) => setBoardName(e.target.value)}
+            close={() => setIsOpen(false)}
+            execute={createBoard}/>
+        }
+    </React.Fragment>
+  );
 }
 
 export default BoardCards;
