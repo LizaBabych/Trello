@@ -1,8 +1,11 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 const Registration: React.FC = () => {
+
+  const history = useHistory();
   return (
     <div className="form">
       <p className="text-mut">Регистрация в MyTrello</p>
@@ -26,7 +29,7 @@ const Registration: React.FC = () => {
               }
               let res = await response.json();
               console.log(res);
-              window.location.assign('http://localhost:3000/login');
+              history.push("/login");
             } catch (error) {
                 alert("Error");
             }
