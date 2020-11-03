@@ -9,6 +9,24 @@ interface IPropsBoard {
   id: number,
 }
 
+interface IBody {
+  id: number,
+  position: number,
+}
+
+interface IList {
+  id: number,
+  title: string,
+  cards: {
+    id: number,
+    created_at: number,
+    description: string,
+    position: number,
+    title: string,
+    users: Array<string>
+  },
+  position: number,
+}
 const Board: React.FC<IPropsBoard> = (props) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -17,6 +35,7 @@ const Board: React.FC<IPropsBoard> = (props) => {
   const [lists, setLists] = useState<object>({});
   const [listName, setListName] = useState<string>('');
   const [position, setPosition] = useState<number>(0);
+  const [currentList, setCurrentList] = useState<any>({});
 
   useEffect(() => {
     getBoard();
@@ -95,12 +114,69 @@ const Board: React.FC<IPropsBoard> = (props) => {
     await getBoard();
   }
 
+function dragStartHandler(e, list: IList) { setCurrentList(list) }
+
+function dragEndHandler(e) { e.target.style.background='white' }
+
+function dragOverHandler(e) {
+  e.preventDefault();
+  e.target.style.background='lightgray'
+}
+
+async function dropHandler(e, list: IList) {
+  e.preventDefault();
+  e.target.style.background='white';
+  let a: IBody = { id: 0, position: 0 };
+  let b: IBody = { id: 0, position: 0 };
+  Object.keys(lists).map(i => {
+    if (lists[i].id === currentList.id) {
+      a.position = list.position;
+      a.id = currentList.id;
+    }
+    if (lists[i].id === list.id) {
+      b.position = currentList.position;
+      b.id = list.id;
+    }
+  })
+  let body = [a, b];
+  await changeLists(body);
+}
+
+async function changeLists(body: Array<IBody>) {
+  try {
+    let response = await fetch(`http://localhost:5000/v1/board/${props.id}/list`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${props.token}`
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+        console.log("Error: " + response.status);
+    }
+    let res = await response.json();
+    console.log(res);
+  } catch (error) {
+      alert("Error");
+  }
+  await getBoard();
+}
+
   return (
     <React.Fragment>
       {isLoad &&
         <div className="list">
           {Object.keys(lists).map((list, index) => (
-            <div key={index} className="form-list">
+            <div
+              key={index}
+              draggable={true}
+              onDragStart={(e) => dragStartHandler(e, lists[list])}
+              onDragLeave={(e) => dragEndHandler(e)}
+              onDragEnd={(e) => dragEndHandler(e)}
+              onDragOver={(e) => dragOverHandler(e)}
+              onDrop={(e) => dropHandler(e, lists[list])}
+              className="form-list">
               <List
                 boardId={props.id}
                 listId={lists[list].id}

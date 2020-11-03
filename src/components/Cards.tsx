@@ -3,11 +3,21 @@ import Modal from './Modal';
 import Card from './Card';
 import '../styles/card.css';
 
+interface ICard {
+  id: number,
+  created_at: number,
+  description: string,
+  position: number,
+  title: string,
+  users: Array<string>
+}
+
 function Cards(props): any{
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cardName, setCardName] = useState<string>('');
   const [cards, setCards] = useState<object>(props.cards);
+  const [currentCard, setCurrentCard] = useState<any>({});
 
   async function sendRequest(method: string, url: string) {
     try {
@@ -94,10 +104,47 @@ function Cards(props): any{
     await getCard();
   }
 
+  // function dragStartHandler(e, card: ICard) {
+  //   setCurrentCard(card);
+  // }
+  //
+  // function dragEndHandler(e) { e.target.style.background='white' }
+  //
+  // function dragOverHandler(e) {
+  //   e.preventDefault();
+  //   e.target.style.background='lightgray'
+  // }
+  //
+  // function dropHandler(e, card: ICard) {
+  //   let a = { id: 0, position: 0 };
+  //   let b = { id: 0, position: 0 };
+  //   Object.keys(cards).map(i => {
+  //     if (cards[i].id === currentCard.id) {
+  //       a.position = card.position;
+  //       a.id = currentCard.id;
+  //     }
+  //     if (cards[i].id === card.id) {
+  //       b.position = currentCard.position;
+  //       b.id = card.id;
+  //     }
+  //   })
+  //   let body = [a, b];
+  //   console.log(body);
+  // }
+
   return (
     <React.Fragment>
       {Object.keys(cards).map((card, index) => (
-        <div key={index} className="card">
+        <div
+          key={index}
+          className="card"
+          // draggable={true}
+          // onDragStart={(e) => dragStartHandler(e, cards[card])}
+          // onDragLeave={(e) => dragEndHandler(e)}
+          // onDragEnd={(e) => dragEndHandler(e)}
+          // onDragOver={(e) => dragOverHandler(e)}
+          // onDrop={(e) => dropHandler(e, cards[card])}
+        >
           <Card
             title={cards[card].title}
             created={cards[card].created_at}
