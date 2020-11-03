@@ -14,6 +14,9 @@
 .list-name span {
   cursor: pointer;
 }
+.hide {
+  display: none;
+}
 .form-list {
   background-color: #FFFFFF;
   border-radius: 3px;

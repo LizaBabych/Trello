@@ -84,12 +84,19 @@ const Board: React.FC<IPropsBoard> = (props) => {
 
   async function getBoard() {
     const result = await sendRequest("GET", `http://localhost:5000/v1/board/${props.id}`);
+    let listsAray: Array<IList> = [];
+    Object.keys(result.lists).map(list => {
+      listsAray.push(result.lists[list]);
+    })
+    listsAray.sort((a, b) => {
+      return a.position - b.position;
+    });
     setIsLoad(true);
     setUsers(result.users);
-    setLists(result.lists);
-    setPosition(Object.keys(lists).length);
+    setPosition(listsAray[listsAray.length-1].position);
+    setLists(listsAray);
     console.log("Списки на доске: ");
-    console.log(result.lists);
+    console.log(listsAray);
   }
 
   async function deleteList(id: number) {
@@ -103,7 +110,7 @@ const Board: React.FC<IPropsBoard> = (props) => {
     setListName(e.target.value);
     console.log(`Create list with name: ${listName}`);
     await sendPostRequest("POST", `http://localhost:5000/v1/board/${props.id}/list`);
-    setPosition(Object.keys(lists).length + 1);
+    setPosition(position + 1);
     await getBoard();
   }
 
@@ -114,9 +121,18 @@ const Board: React.FC<IPropsBoard> = (props) => {
     await getBoard();
   }
 
-function dragStartHandler(e, list: IList) { setCurrentList(list) }
+function dragStartHandler(e, list: IList) {
+  setCurrentList(list);
+  e.persist();
+  setTimeout(() => {
+    e.target.style.visibility='hidden';
+  }, 0);
+}
 
-function dragEndHandler(e) { e.target.style.background='white' }
+function dragEndHandler(e) {
+  e.target.style.visibility='visible';
+  e.target.style.background='white'
+}
 
 function dragOverHandler(e) {
   e.preventDefault();
