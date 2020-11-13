@@ -1,7 +1,8 @@
 .list {
   display: flex;
-  justify-content: flex-start;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  /* overflow-x: scroll; */
   margin-left: 20px;
 }
 .list-name {

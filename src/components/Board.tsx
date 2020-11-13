@@ -93,7 +93,9 @@ const Board: React.FC<IPropsBoard> = (props) => {
     });
     setIsLoad(true);
     setUsers(result.users);
-    setPosition(listsAray[listsAray.length-1].position);
+    if (Object.keys(result.lists).length !== 0) {
+      setPosition(listsAray[listsAray.length-1].position);
+    }
     setLists(listsAray);
     console.log("Списки на доске: ");
     console.log(listsAray);
@@ -181,7 +183,7 @@ async function changeLists(body: Array<IBody>) {
 
   return (
     <React.Fragment>
-      {isLoad &&
+      {(isLoad) &&
         <div className="list">
           {Object.keys(lists).map((list, index) => (
             <div
