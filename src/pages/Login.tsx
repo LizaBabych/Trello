@@ -1,9 +1,15 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { setToken } from "../store/actions/tokenActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = (props) => {
+
+  const dispatch = useDispatch();
+  const setNewToken = (token) => { dispatch(setToken(token)); };
+  const token = useSelector((state) => state.tokenReducer.token);
 
   const history = useHistory();
   return (
@@ -28,7 +34,8 @@ const Login = (props) => {
                  console.log("Error: " + response.status);
              }
              let res = await response.json();
-             history.push(`/${res.token}`);
+             setNewToken(res.token);
+             history.push('/');
            } catch (error) {
                alert("Error");
            }
@@ -75,5 +82,6 @@ const Login = (props) => {
     </div>
   );
 };
+// <Link to={"/registration"}>Зарегестрироваться</Link>
 
 export default Login;

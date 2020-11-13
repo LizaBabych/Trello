@@ -6,7 +6,6 @@ import '../styles/list.css';
 interface IPropsList {
   boardId: number,
   listId: number,
-  token: number,
   title: string,
   listName: string,
   setName(e: React.ChangeEvent<HTMLInputElement>): void,
@@ -42,7 +41,7 @@ const List: React.FC<IPropsList> = (props) => {
             execute={props.updateList}/>
         }
         </div>
-      <Cards cards={props.cards} boardId={props.boardId} listId={props.listId} token={props.token} />
+      <Cards cards={props.cards} boardId={props.boardId} listId={props.listId}/>
     </React.Fragment>
   );
 }

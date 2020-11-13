@@ -1,17 +1,19 @@
 import React, {useState} from "react";
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
+import { useSelector } from "react-redux";
 import '../styles/boardCard.css';
 
 function BoardCard(props): any {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [color, setColor] = useState<string>("default");
+  const token = useSelector((state) => state.tokenReducer.token);
 
   return (
     <div className={"board-card " + color}>
       <div className="board-card-name">
-        <Link className="board-card-body-link" to={"/" + props.token + "/b/" + props.id}>{props.title}</Link>
+        <Link className="board-card-body-link" to={"/board/" + props.id}>{props.title}</Link>
         <div className="center">
           <div className="dropdown mr-1 dark">
             <span className="mr-1" id="dropdownMenu1" data-toggle="dropdown"

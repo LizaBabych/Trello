@@ -13,9 +13,9 @@ const App: React.FC = () =>{
         <Switch>
           <Route path='/login' exact component={Login}/>
           <Route path='/registration' component={Registration}/>
-          <Route path='/:token' exact component={Home}/>
-          <Route path='/:token/boards' component={Boards}/>
-          <Route path='/:token/b/:id' component={BoardPage}/>
+          <Route path='/' exact component={Home}/>
+          <Route path='/boards' component={Boards}/>
+          <Route path='/board/:id' component={BoardPage}/>
         </Switch>
       </BrowserRouter>
     </div>

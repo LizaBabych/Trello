@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Modal from './Modal';
 import Card from './Card';
 import '../styles/card.css';
+import { useSelector } from "react-redux";
 
 interface ICard {
   id: number,
@@ -12,12 +13,14 @@ interface ICard {
   users: Array<string>
 }
 
-function Cards(props): any{
+function Cards(props): any {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cardName, setCardName] = useState<string>('');
   const [cards, setCards] = useState<object>(props.cards);
   const [currentCard, setCurrentCard] = useState<any>({});
+
+  const token = useSelector((state) => state.tokenReducer.token);
 
   async function sendRequest(method: string, url: string) {
     try {
@@ -25,7 +28,7 @@ function Cards(props): any{
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`
+          'Authorization': `Bearer ${token}`
         },
       });
       if (!response.ok) {
@@ -59,7 +62,7 @@ function Cards(props): any{
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           "title": cardName,
@@ -86,7 +89,7 @@ function Cards(props): any{
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           "title": cardName,

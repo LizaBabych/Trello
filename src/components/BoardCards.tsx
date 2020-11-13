@@ -2,13 +2,16 @@ import React, {useState, useEffect} from 'react';
 import BoardCard from './BoardCard';
 import Modal from './Modal';
 import '../styles/modal.css';
+import { useSelector } from "react-redux";
 
-function BoardCards(props): any {
+function BoardCards() {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [boards, setBoards] = useState<any[]>([]);
   const [boardName, setBoardName] = useState<string>('');
+
+  const token = useSelector((state) => state.tokenReducer.token);
 
   useEffect(() => {
     getBoards();
@@ -20,7 +23,7 @@ function BoardCards(props): any {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`
+          'Authorization': `Bearer ${token}`
         },
       });
       if (!response.ok) {
@@ -38,7 +41,7 @@ function BoardCards(props): any {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ "title": boardName }),
       });
@@ -61,7 +64,7 @@ function BoardCards(props): any {
   }
 
   async function deleteBoard(id: number) {
-    console.log(`Удалили доску с id: ${id} и token: ${props.token}`);
+    console.log(`Удалили доску с id: ${id} и token: ${token}`);
     await sendRequest("DELETE", `http://localhost:5000/v1/board/${id}`);
     await getBoards();
   }
@@ -76,7 +79,7 @@ function BoardCards(props): any {
 
   async function updateBoard(id: number) {
     setIsOpen(false);
-    console.log(`Редактировали доску с id: ${id} и token: ${props.token} имя: ${boardName}`);
+    console.log(`Редактировали доску с id: ${id} и token: ${token} имя: ${boardName}`);
     sendPostRequest("PUT", `http://localhost:5000/v1/board/${id}`);
     await getBoards();
   }
@@ -88,7 +91,6 @@ function BoardCards(props): any {
           <React.Fragment>
             {boards.map((board) =>
               <BoardCard key={board.id}
-                token={props.token}
                 id={board.id}
                 title={board.title}
                 setName={(e: React.ChangeEvent<HTMLInputElement>) => setBoardName(e.target.value)}

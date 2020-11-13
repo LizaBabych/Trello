@@ -1,13 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import List from './List';
 import Modal from './Modal';
+import { useSelector } from "react-redux";
 import '../styles/list.css';
 import '../styles/modal.css';
-
-interface IPropsBoard {
-  token: number,
-  id: number,
-}
 
 interface IBody {
   id: number,
@@ -27,7 +23,7 @@ interface IList {
   },
   position: number,
 }
-const Board: React.FC<IPropsBoard> = (props) => {
+const Board = (props) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoad, setIsLoad] = useState<boolean>(false);
@@ -36,6 +32,8 @@ const Board: React.FC<IPropsBoard> = (props) => {
   const [listName, setListName] = useState<string>('');
   const [position, setPosition] = useState<number>(0);
   const [currentList, setCurrentList] = useState<any>({});
+
+  const token = useSelector((state) => state.tokenReducer.token);
 
   useEffect(() => {
     getBoard();
@@ -47,7 +45,7 @@ const Board: React.FC<IPropsBoard> = (props) => {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`
+          'Authorization': `Bearer ${token}`
         },
       });
       if (!response.ok) {
@@ -65,7 +63,7 @@ const Board: React.FC<IPropsBoard> = (props) => {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           "title": listName,
@@ -166,7 +164,7 @@ async function changeLists(body: Array<IBody>) {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${props.token}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(body),
     });
@@ -188,7 +186,6 @@ async function changeLists(body: Array<IBody>) {
           {Object.keys(lists).map((list, index) => (
             <div
               key={index}
-              draggable={true}
               onDragStart={(e) => dragStartHandler(e, lists[list])}
               onDragLeave={(e) => dragEndHandler(e)}
               onDragEnd={(e) => dragEndHandler(e)}
@@ -198,7 +195,6 @@ async function changeLists(body: Array<IBody>) {
               <List
                 boardId={props.id}
                 listId={lists[list].id}
-                token={props.token}
                 title={lists[list].title}
                 listName={listName}
                 setName={(e: React.ChangeEvent<HTMLInputElement>) => setListName(e.target.value)}
