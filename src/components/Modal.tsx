@@ -28,7 +28,7 @@ const Modal = (props) =>{
                 placeholder="Введите название" />
               <div className="center">
                 <button onClick={props.execute}
-                  className="btn btn-outline-success mt-2">
+                  className="btn mt-2">
                   Применить
                 </button>
               </div>

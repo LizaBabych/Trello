@@ -17,6 +17,8 @@ function Cards(props): any {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cardName, setCardName] = useState<string>('');
+  const [description, setCardDescription] = useState<string>('');
+  const [userName, setUserName] = useState<boolean>(false);
   const [cards, setCards] = useState<object>(props.cards);
   const [currentCard, setCurrentCard] = useState<any>({});
 
@@ -81,8 +83,7 @@ function Cards(props): any {
     await getCard();
   }
 
-  async function updateCard(id: number) {
-    setIsOpen(false);
+  async function updateCard(id: number, body) {
     console.log(`Update card with id: ${id} and name: ${cardName}`);
     try {
       let response = await fetch(`http://localhost:5000/v1/board/${props.boardId}/card/${id}`, {
@@ -91,10 +92,7 @@ function Cards(props): any {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          "title": cardName,
-          "list_id": props.listId,
-        }),
+        body: body,
       });
       if (!response.ok) {
           console.log("Error: " + response.status);
@@ -104,57 +102,57 @@ function Cards(props): any {
     } catch (error) {
         alert("Error");
     }
-    await getCard();
   }
 
-  // function dragStartHandler(e, card: ICard) {
-  //   setCurrentCard(card);
-  // }
-  //
-  // function dragEndHandler(e) { e.target.style.background='white' }
-  //
-  // function dragOverHandler(e) {
-  //   e.preventDefault();
-  //   e.target.style.background='lightgray'
-  // }
-  //
-  // function dropHandler(e, card: ICard) {
-  //   let a = { id: 0, position: 0 };
-  //   let b = { id: 0, position: 0 };
-  //   Object.keys(cards).map(i => {
-  //     if (cards[i].id === currentCard.id) {
-  //       a.position = card.position;
-  //       a.id = currentCard.id;
-  //     }
-  //     if (cards[i].id === card.id) {
-  //       b.position = currentCard.position;
-  //       b.id = card.id;
-  //     }
-  //   })
-  //   let body = [a, b];
-  //   console.log(body);
-  // }
+  async function updateUsers(id: number) {
+    setIsOpen(false);
+    try {
+      let response = await fetch(`http://localhost:5000/v1/board/${props.boardId}/card/${id}/users`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify ({
+          "add": [userName],
+        }),
+      });
+      if (!response.ok) {
+          console.log("Error: " + response.status);
+      }
+      let result = await response.json();
+      console.log(result);
+    } catch (error) {
+       alert("Error");
+    }
+    await getCard();
+  }
 
   return (
     <React.Fragment>
       {Object.keys(cards).map((card, index) => (
         <div
           key={index}
-          className="card"
-          // draggable={true}
-          // onDragStart={(e) => dragStartHandler(e, cards[card])}
-          // onDragLeave={(e) => dragEndHandler(e)}
-          // onDragEnd={(e) => dragEndHandler(e)}
-          // onDragOver={(e) => dragOverHandler(e)}
-          // onDrop={(e) => dropHandler(e, cards[card])}
-        >
+          className="card">
           <Card
-            title={cards[card].title}
-            created={cards[card].created_at}
             cardName={cardName}
             setName={(e: React.ChangeEvent<HTMLInputElement>) => setCardName(e.target.value)}
+            description={description}
+            setDescription={(e) => setCardDescription(e.target.value)}
+            card={cards[card]}
+            userName={userName}
+            setUserName={(e) => setUserName(e.target.value)}
             deleteCard={() => deleteCard(cards[card].id)}
-            updateCard={() => updateCard(cards[card].id)}/>
+            updateCard={() => updateCard(cards[card].id, JSON.stringify ({                        // TODO: JSON переделать
+              "title": cardName,
+              "list_id": props.listId,
+            }))}
+            updateDescriptionCard={() => updateCard(cards[card].id, JSON.stringify ({
+              "description": description,
+              "list_id": props.listId,
+            }))}
+            getCard={async () => await getCard()}
+            updateUsers={() => updateUsers(cards[card].id)}/>
         </div>
       ))}
       <button onClick={() => setIsOpen(true)} className="btn mt-2 ml-1">

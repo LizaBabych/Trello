@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Modal from './Modal';
+import EditCard from './EditCard';
 import '../styles/card.css';
 
 function Card(props): any {
@@ -12,10 +12,15 @@ function Card(props): any {
     + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
   }
 
+  const saveHandler = () => {
+    setIsOpen(false);
+    props.getCard();
+  }
+
   return (
     <React.Fragment>
       <div className="name">
-        {props.title}
+        {props.card.title}
         <div className="dropdown">
           <span className="mr-1" id="dropdownMenu1" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
@@ -28,16 +33,23 @@ function Card(props): any {
         </div>
       </div>
       <div className="created mt-2">
-        {getDate(props.created)}
+        {getDate(props.card.created_at)}
       </div>
       {isOpen &&
         <React.Fragment>
-          <Modal
-            title="Редактировать карточку"
+          <EditCard
+            card={props.card}
             name={props.cardName}
             setName={props.setName}
+            description={props.description}
+            setDescription={props.setDescription}
+            userName={props.userName}
+            setUserName={props.setUserName}
+            updateDescriptionCard={props.updateDescriptionCard}
+            updateUsers={props.updateUsers}
             close={() => setIsOpen(false)}
-            execute={props.updateCard}/>
+            save={() => saveHandler()}
+            updateTitleCard={props.updateCard}/>
         </React.Fragment>
       }
     </React.Fragment>

@@ -1,18 +1,25 @@
-.modal-container {
+.modal-container, .modal-container-edit {
   display: flex;
   font-family: 'Lobster', cursive;
   justify-content: center;
   transform: translate(-50%, -50%);
   position: fixed;
-  width: 300px;
   top: 50%;
   left: 50%;
   z-index: 5;
 }
+.modal-container {  width: 300px; }
+.modal-container-edit { width: 500px; }
 .modal-content {
   border: 1px solid gray;
   border-radius: 5px;
 }
+.users-container {
+  display: flex;
+  justify-content: flex-start;
+}
+.close-user { color: red; }
+.close-user:hover { cursor: pointer; }
 .modal {
   z-index: 1;
   position: fixed;
