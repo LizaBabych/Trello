@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import EditCard from './EditCard';
 import '../styles/card.css';
 
-function Card(props): any {
+function Card(props) {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -18,7 +18,7 @@ function Card(props): any {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="name">
         {props.card.title}
         <div className="dropdown">
@@ -52,7 +52,7 @@ function Card(props): any {
             updateTitleCard={props.updateCard}/>
         </React.Fragment>
       }
-    </React.Fragment>
+    </>
   );
 }
 

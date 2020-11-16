@@ -8,15 +8,17 @@ import '../styles/modal.css';
 
 function Boards(props): any {
 
-  const token = useSelector((state) => state.tokenReducer.token);
+  const token = JSON.parse(localStorage.getItem('token') || '{}');
+  const isLogin = useSelector((state) => state.isLoginReducer.isLogin);
+
   const history = useHistory();
 
-  if (token === 0) {
+  if (!localStorage.getItem('token') && isLogin === 0) {
     history.push('/login');
   }
 
   return (
-    <React.Fragment>
+    <>
       <Header/>
       <div className="sidebar">
         <div className="sidenav">
@@ -29,7 +31,7 @@ function Boards(props): any {
           <BoardCards />
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

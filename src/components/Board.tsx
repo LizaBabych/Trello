@@ -33,7 +33,7 @@ const Board = (props) => {
   const [position, setPosition] = useState<number>(0);
   const [currentList, setCurrentList] = useState<any>({});
 
-  const token = useSelector((state) => state.tokenReducer.token);
+  const token = JSON.parse(localStorage.getItem('token') || '{}');
 
   useEffect(() => {
     getBoard();
@@ -180,7 +180,7 @@ async function changeLists(body: Array<IBody>) {
 }
 
   return (
-    <React.Fragment>
+    <>
       {(isLoad) &&
         <div className="list">
           {Object.keys(lists).map((list, index) => (
@@ -216,7 +216,7 @@ async function changeLists(body: Array<IBody>) {
         </div>
       }
       <button onClick={() => setIsOpen(true)}className="btn mt-2 ml-1">Добавить список</button>
-    </React.Fragment>
+    </>
   );
 }
 

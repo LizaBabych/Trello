@@ -7,20 +7,23 @@ import '../styles/sidebar.css';
 
 function BoardPage(props) {
 
-  const token = useSelector((state) => state.tokenReducer.token);
+  const token = JSON.parse(localStorage.getItem('token') || '{}');
   console.log(`Страница с токеном: ${token} и id: ${props.match.params.id}`);
   const history = useHistory();
 
-  if (token === 0) {
+  const isLogin = useSelector((state) => state.isLoginReducer.isLogin);
+
+  if (!localStorage.getItem('token') && isLogin === 0) {
     history.push('/login');
   }
+
   return (
-    <React.Fragment>
+    <>
       <Header/>
       <div className="sidebar">
         <Board id={props.match.params.id} />
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

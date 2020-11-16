@@ -1,6 +1,5 @@
 .modal-container, .modal-container-edit {
   display: flex;
-  font-family: 'Lobster', cursive;
   justify-content: center;
   transform: translate(-50%, -50%);
   position: fixed;
@@ -32,9 +31,10 @@
 }
 .modal-head {
   display: flex;
-  padding: 5px;
   justify-content: space-between;
-  font-size: 18px;
+  padding: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
 .modal-head button, button:active, button:hover {

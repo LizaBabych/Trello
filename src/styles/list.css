@@ -2,11 +2,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  /* overflow-x: scroll; */
+  overflow-x: scroll;
   margin-left: 20px;
 }
 .list-name {
-  font-family: 'Lobster', cursive;
   display: flex;
   justify-content: space-between;
   text-align: center;

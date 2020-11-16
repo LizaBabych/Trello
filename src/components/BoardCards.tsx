@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import BoardCard from './BoardCard';
 import Modal from './Modal';
 import '../styles/modal.css';
-import { useSelector } from "react-redux";
 
 function BoardCards() {
 
@@ -11,7 +10,7 @@ function BoardCards() {
   const [boards, setBoards] = useState<any[]>([]);
   const [boardName, setBoardName] = useState<string>('');
 
-  const token = useSelector((state) => state.tokenReducer.token);
+  const token = JSON.parse(localStorage.getItem('token') || '{}');
 
   useEffect(() => {
     getBoards();
@@ -56,11 +55,13 @@ function BoardCards() {
   }
 
   async function getBoards() {
-    const result = await sendRequest("GET", "http://localhost:5000/v1/board");
-    setBoards(result.boards);
-    setIsLoad(true);
-    console.log("Получили доски: ");
-    console.log(result.boards);
+    if (token !== 0) {
+      const result = await sendRequest("GET", "http://localhost:5000/v1/board");
+      setBoards(result.boards);
+      setIsLoad(true);
+      console.log("Получили доски: ");
+      console.log(result.boards);
+    }
   }
 
   async function deleteBoard(id: number) {
@@ -85,7 +86,7 @@ function BoardCards() {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="board-card-list">
         {isLoad &&
           <React.Fragment>
@@ -109,7 +110,7 @@ function BoardCards() {
             close={() => setIsOpen(false)}
             execute={createBoard}/>
         }
-    </React.Fragment>
+    </>
   );
 }
 

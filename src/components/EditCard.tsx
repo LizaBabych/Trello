@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/modal.css';
 
 const EditCard = (props) =>{
 
-  const users = ["cdxs", "vfcdxs", "gvfcd"];
+  // const users = ["cdxs", "vfcdxs", "gvfcd"];
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
       <div className="createBoard">
@@ -11,11 +12,13 @@ const EditCard = (props) =>{
         <div className="modal-container-edit">
           <div className='modal-content'>
             <div className='modal-head'>
-              <h5>{props.card.title}</h5>
-              <button><i className="fas fa-times" onClick={props.close} /></button>
+            { !isOpen &&
+              <h5 onClick={() => setIsOpen(true)}>{props.card.title}</h5>
+            }
             </div>
             <div className='modal-body'>
-            <div className="users-container mb-2">
+            {isOpen &&
+              <div className="users-container mb-2">
               <input
                 value={props.name}
                 onChange={props.setName}
@@ -27,6 +30,8 @@ const EditCard = (props) =>{
                   <i className="fas fa-plus"/>
                 </button>
               </div>
+            }
+
               <div className="users-container mb-2">
                 <textarea
                   value={props.description}
@@ -64,5 +69,6 @@ const EditCard = (props) =>{
     </div>
   );
 }
+// <button><i className="fas fa-times" onClick={props.close} /></button>
 
 export default EditCard;

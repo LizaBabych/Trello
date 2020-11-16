@@ -2,14 +2,14 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { setToken } from "../store/actions/tokenActions";
+import { setLogin } from "../store/actions/isLoginActions";
 import { useDispatch, useSelector } from "react-redux";
 
 const Login = (props) => {
 
   const dispatch = useDispatch();
-  const setNewToken = (token) => { dispatch(setToken(token)); };
-  const token = useSelector((state) => state.tokenReducer.token);
+  const setIsLogin = (isLogin) => { dispatch(setLogin(isLogin)); };
+  const isLogin = useSelector((state) => state.isLoginReducer.isLogin);
 
   const history = useHistory();
   return (
@@ -34,8 +34,10 @@ const Login = (props) => {
                  console.log("Error: " + response.status);
              }
              let res = await response.json();
-             setNewToken(res.token);
-             history.push('/');
+             if (isLogin === 1) {
+               localStorage.setItem('token', JSON.stringify(res.token));
+               history.push('/');
+             }
            } catch (error) {
                alert("Error");
            }
@@ -72,7 +74,7 @@ const Login = (props) => {
              </div>
              {props.touched.password && props.errors.password && <div className="text-danger">{props.errors.password}</div>}
              <div className="center">
-               <button type="submit" className="btn btn-success">
+               <button type="submit" className="btn btn-success" onClick={() => setIsLogin(1)}>
                  Войти
                </button>
              </div>
@@ -82,6 +84,5 @@ const Login = (props) => {
     </div>
   );
 };
-// <Link to={"/registration"}>Зарегестрироваться</Link>
 
 export default Login;

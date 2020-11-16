@@ -4,11 +4,11 @@ import Modal from './Modal';
 import { useSelector } from "react-redux";
 import '../styles/boardCard.css';
 
-function BoardCard(props): any {
+function BoardCard(props) {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [color, setColor] = useState<string>("default");
-  const token = useSelector((state) => state.tokenReducer.token);
+  const token = JSON.parse(localStorage.getItem('token') || '{}');
 
   return (
     <div className={"board-card " + color}>

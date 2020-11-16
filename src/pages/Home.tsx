@@ -6,16 +6,17 @@ import logo from '../assets/team.jpg';
 import '../styles/sidebar.css';
 
 function Home() {
-  
-  const token = useSelector((state) => state.tokenReducer.token);
-  const history = useHistory();
 
-  if (token === 0) {
+  const token = JSON.parse(localStorage.getItem('token') || '{}');
+  const history = useHistory();
+  const isLogin = useSelector((state) => state.isLoginReducer.isLogin);
+
+  if (!localStorage.getItem('token') && isLogin === 0) {
     history.push('/login');
   }
 
   return (
-    <React.Fragment>
+    <>
       <Header/>
       <div className="sidebar">
         <div className="sidenav">
@@ -33,7 +34,7 @@ function Home() {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

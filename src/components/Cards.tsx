@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import Modal from './Modal';
 import Card from './Card';
 import '../styles/card.css';
-import { useSelector } from "react-redux";
 
 interface ICard {
   id: number,
@@ -22,7 +21,7 @@ function Cards(props): any {
   const [cards, setCards] = useState<object>(props.cards);
   const [currentCard, setCurrentCard] = useState<any>({});
 
-  const token = useSelector((state) => state.tokenReducer.token);
+  const token = JSON.parse(localStorage.getItem('token') || '{}');
 
   async function sendRequest(method: string, url: string) {
     try {
@@ -129,7 +128,7 @@ function Cards(props): any {
   }
 
   return (
-    <React.Fragment>
+    <>
       {Object.keys(cards).map((card, index) => (
         <div
           key={index}
@@ -168,7 +167,7 @@ function Cards(props): any {
             execute={(e: React.ChangeEvent<HTMLInputElement>) => addCard(e)}/>
         </React.Fragment>
       }
-    </React.Fragment>
+    </>
   );
 }
 
