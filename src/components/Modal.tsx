@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/modal.css';
 
 const Modal = (props) => {
+
   return (
       <div className="createBoard">
         <div className='modal'/>

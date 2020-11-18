@@ -36,7 +36,7 @@ function Card(props) {
         {getDate(props.card.created_at)}
       </div>
       {isOpen &&
-        <React.Fragment>
+        <>
           <EditCard
             card={props.card}
             name={props.cardName}
@@ -47,10 +47,11 @@ function Card(props) {
             setUserName={props.setUserName}
             updateDescriptionCard={props.updateDescriptionCard}
             updateUsers={props.updateUsers}
+            getCard={props.getCard}
             close={() => setIsOpen(false)}
             save={() => saveHandler()}
             updateTitleCard={props.updateCard}/>
-        </React.Fragment>
+        </>
       }
     </>
   );

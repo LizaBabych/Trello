@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { setLogin } from "../store/actions/isLoginActions";
 import { useDispatch, useSelector } from "react-redux";
+import '../styles/sidebar.css';
 
 const Login = (props) => {
 
@@ -43,12 +44,13 @@ const Login = (props) => {
            }
          }}
          validationSchema={Yup.object({
-           email: Yup.string().email("Поле должно быть email адрессом").required("Это поле обязательное"),
+           email: Yup.string().email("Поле должно быть email адрессом").required("Это поле обязательное!"),
            password: Yup.string().min(6, "Количество символов меньше 6").required("Это поле обязательное!"),
          })}
        >
          {props => (
            <form onSubmit={props.handleSubmit}>
+           {props.touched.email && props.errors.email && <div className="text-danger">{props.errors.email}</div>}
              <div className="form-group">
                <input
                  type="email"
@@ -60,7 +62,7 @@ const Login = (props) => {
                  name="email"
                />
              </div>
-             {props.touched.email && props.errors.email && <div className="text-danger">{props.errors.email}</div>}
+             {props.touched.password && props.errors.password && <div className="text-danger">{props.errors.password}</div>}
              <div className="form-group">
                <input
                  type="password"
@@ -72,7 +74,6 @@ const Login = (props) => {
                  name="password"
                />
              </div>
-             {props.touched.password && props.errors.password && <div className="text-danger">{props.errors.password}</div>}
              <div className="center">
                <button type="submit" className="btn btn-success" onClick={() => setIsLogin(1)}>
                  Войти

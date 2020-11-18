@@ -115,10 +115,12 @@ const Board = (props) => {
   }
 
   async function updateList(id: number) {
-    setIsOpen(false);
-    console.log(`Update list with id: ${id} and name: ${listName}`);
-    await sendPostRequest("PUT", `http://localhost:5000/v1/board/${props.id}/list/${id}`);
-    await getBoard();
+    if (listName.length !== 0) {
+      setIsOpen(false);
+      console.log(`Update list with id: ${id} and name: ${listName}`);
+      await sendPostRequest("PUT", `http://localhost:5000/v1/board/${props.id}/list/${id}`);
+      await getBoard();
+    }
   }
 
 function dragStartHandler(e, list: IList) {

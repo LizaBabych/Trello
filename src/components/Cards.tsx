@@ -12,13 +12,14 @@ interface ICard {
   users: Array<string>
 }
 
-function Cards(props): any {
+function Cards(props) {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cardName, setCardName] = useState<string>('');
   const [description, setCardDescription] = useState<string>('');
   const [userName, setUserName] = useState<boolean>(false);
   const [cards, setCards] = useState<object>(props.cards);
+  const [position, setPosition] = useState<number>(0);
   const [currentCard, setCurrentCard] = useState<any>({});
 
   const token = JSON.parse(localStorage.getItem('token') || '{}');
@@ -43,7 +44,18 @@ function Cards(props): any {
 
   async function getCard() {
     const result = await sendRequest("GET", `http://localhost:5000/v1/board/${props.boardId}`);
+    let cardsAray: any = [];
+    Object.keys(result.lists[props.listId].cards).map(card => {
+      cardsAray.push(result.lists[props.listId].cards[card]);
+    })
+    cardsAray.sort((a, b) => {
+      return a.position - b.position;
+    });
+    if (Object.keys(result.lists[props.listId].cards).length !== 0) {
+      setPosition(cardsAray[cardsAray.length-1].position);
+    }
     setCards(result.lists[props.listId].cards);
+    setCards(cardsAray);
     console.log("Списки на доске:");
     console.log(result.lists[props.listId].cards);
   }
@@ -68,7 +80,7 @@ function Cards(props): any {
         body: JSON.stringify({
           "title": cardName,
           "list_id": props.listId,
-          "position": Object.keys(cards).length + 1,
+          "position": position + 1,
         }),
       });
       if (!response.ok) {
@@ -79,6 +91,7 @@ function Cards(props): any {
     } catch (error) {
         alert("Error");
     }
+    setPosition(position + 1);
     await getCard();
   }
 

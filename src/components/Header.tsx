@@ -9,11 +9,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const setIsLogin = (isLogin) => { dispatch(setLogin(isLogin)); };
 
-  const clickHandler = () => {
-    localStorage.removeItem('token');
-    setIsLogin(0);
-  }
-
   return (
     <nav className="navbar navbar-expand-lg fixed-top back-header">
       <div className="collapse navbar-collapse">
@@ -37,7 +32,7 @@ const Header = () => {
           </li>
         </ul>
         <h3 className="head-name mr-auto">MyTrello</h3>
-        <i className="fas fa-door-open" onClick={() => clickHandler()}/>
+        <i className="fas fa-door-open" onClick={() => {localStorage.removeItem('token'); setIsLogin(0); }}/>
       </div>
     </nav>
   );

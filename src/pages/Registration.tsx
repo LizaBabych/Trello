@@ -35,7 +35,7 @@ const Registration: React.FC = () => {
             }
          }}
          validationSchema={Yup.object({
-           email: Yup.string().email("Поле должно быть email адрессом").required("Это поле обязательное"),
+           email: Yup.string().email("Поле должно быть email адрессом").required("Это поле обязательное!"),
            password: Yup.string().min(6, "Количество символов меньше 6").required("Это поле обязательное!"),
            confirmPassword: Yup.string().oneOf([Yup.ref("password"), null],"Пароли не совпадают")
              .required("Это поле обязательное!"),
@@ -43,6 +43,9 @@ const Registration: React.FC = () => {
        >
          {props => (
            <form onSubmit={props.handleSubmit}>
+           {props.touched.email && props.errors.email && (
+             <div className="text-danger">{props.errors.email}</div>
+           )}
              <div className="form-group">
                <input
                  type="email"
@@ -54,8 +57,8 @@ const Registration: React.FC = () => {
                  name="email"
                />
              </div>
-             {props.touched.email && props.errors.email && (
-               <div className="text-danger">{props.errors.email}</div>
+             {props.touched.password && props.errors.password && (
+               <div className="text-danger">{props.errors.password}</div>
              )}
              <div className="form-group">
                <input
@@ -68,8 +71,8 @@ const Registration: React.FC = () => {
                  name="password"
                />
              </div>
-             {props.touched.password && props.errors.password && (
-               <div className="text-danger">{props.errors.password}</div>
+             {props.touched.confirmPassword && props.errors.confirmPassword && (
+               <div className="text-danger">{props.errors.confirmPassword}</div>
              )}
              <div className="form-group">
                <input
@@ -82,9 +85,7 @@ const Registration: React.FC = () => {
                  name="confirmPassword"
                />
              </div>
-             {props.touched.confirmPassword && props.errors.confirmPassword && (
-               <div className="text-danger">{props.errors.confirmPassword}</div>
-             )}
+  
             <div className="center">
                <button type="submit" className="btn btn-success">
                  Зарегистрироваться

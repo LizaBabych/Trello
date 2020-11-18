@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import BoardCard from './BoardCard';
 import Modal from './Modal';
 import '../styles/modal.css';
+import { useSelector } from "react-redux";
 
 function BoardCards() {
 
@@ -9,6 +10,7 @@ function BoardCards() {
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [boards, setBoards] = useState<any[]>([]);
   const [boardName, setBoardName] = useState<string>('');
+  const isLogin = useSelector((state) => state.isLoginReducer.isLogin);
 
   const token = JSON.parse(localStorage.getItem('token') || '{}');
 
@@ -55,7 +57,7 @@ function BoardCards() {
   }
 
   async function getBoards() {
-    if (token !== 0) {
+    if (token !== 0 && isLogin === 1) {
       const result = await sendRequest("GET", "http://localhost:5000/v1/board");
       setBoards(result.boards);
       setIsLoad(true);

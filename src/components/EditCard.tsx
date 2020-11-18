@@ -5,6 +5,19 @@ const EditCard = (props) =>{
 
   // const users = ["cdxs", "vfcdxs", "gvfcd"];
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenDescr, setOpenDescr] = useState<boolean>(false);
+
+  const keyPressChangeTitle = () => {
+    props.updateTitleCard();
+    props.getCard();
+    setIsOpen(false);
+  }
+
+  const keyPressChangeDescription = () => {
+    props.updateDescriptionCard();
+    props.getCard();
+    setOpenDescr(false);
+  }
 
   return (
       <div className="createBoard">
@@ -12,9 +25,10 @@ const EditCard = (props) =>{
         <div className="modal-container-edit">
           <div className='modal-content'>
             <div className='modal-head'>
-            { !isOpen &&
-              <h5 onClick={() => setIsOpen(true)}>{props.card.title}</h5>
-            }
+            <div className="users-container">
+              <h5 className="modal-title" onClick={() => setIsOpen(true)}>{props.card.title}</h5>
+            </div>
+            <button><i className="fas fa-times" onClick={props.close} /></button>
             </div>
             <div className='modal-body'>
             {isOpen &&
@@ -24,24 +38,28 @@ const EditCard = (props) =>{
                 onChange={props.setName}
                 type="text"
                 className="form-control"
-                placeholder={props.card.title} />
-                <button onClick={props.updateTitleCard}
-                  className="btn">
-                  <i className="fas fa-plus"/>
-                </button>
+                placeholder={props.card.title}
+                onKeyPress={(e) => {if (e.key === "Enter") keyPressChangeTitle(); }}  />
+                <button className="btn"><i className="fas fa-times text-danger" onClick={() => setIsOpen(false)} /></button>
               </div>
             }
-
+            <div className="users-container">
+              <h5>Описание</h5>
+              <i className="mt-1 ml-2 fas fa-edit" onClick={() => setOpenDescr(true)}/>
+            </div>
               <div className="users-container mb-2">
-                <textarea
-                  value={props.description}
-                  onChange={props.setDescription}
-                  className="form-control"
-                  placeholder={props.card.description} />
-                <button onClick={props.updateDescriptionCard}
-                  className="btn">
-                  <i className="fas fa-plus"/>
-                </button>
+              {!isOpenDescr && <p>{props.card.description}</p> }
+              {isOpenDescr &&
+                <>
+                  <textarea
+                    value={props.description}
+                    onChange={props.setDescription}
+                    className="form-control"
+                    placeholder={props.card.description}
+                    onKeyPress={(e) => {if (e.key === "Enter") keyPressChangeDescription(); }}  />
+                    <button className="btn"><i className="fas fa-times text-danger" onClick={() => setOpenDescr(false)} /></button>
+                </>
+              }
               </div>
               <p className="mb-2">Пользователи</p>
                 {props.card.users.map((user, idx) =>
@@ -60,15 +78,19 @@ const EditCard = (props) =>{
                   placeholder="Добавить" />
                 <button className="btn" onClick={props.updateUsers}><i className="fas fa-plus"/></button>
               </div>
-              <div className="center mt-2">
-                <button className="btn btn-success" onClick={props.save}>Сохранить</button>
-              </div>
             </div>
           </div>
       </div>
     </div>
   );
 }
+// <button onClick={props.updateTitleCard}
+//   className="btn">
+//   <i className="fas fa-plus"/>
+// </button>
 // <button><i className="fas fa-times" onClick={props.close} /></button>
+// <div className="center mt-2">
+//   <button className="btn btn-success" onClick={props.save}>Сохранить</button>
+// </div>
 
 export default EditCard;
