@@ -73,7 +73,8 @@ const EditCard = (props) => {
                     onChange={props.setUserName}
                     type="text"
                     className="form-control"
-                    placeholder="Добавить пользователя..."/>
+                    placeholder="Добавить пользователя..."
+                    onKeyPress={(e) => {if (e.key === "Enter") props.updateUsers(); }}/>
                     <button className="btn btn-success" onClick={() => props.updateUsers()}><i className="fas fa-plus" /></button>
                 </div>
                 <div className="users-container mt-1">
@@ -81,7 +82,8 @@ const EditCard = (props) => {
                     onChange={props.setRemoveUser}
                     type="text"
                     className="form-control"
-                    placeholder="Удалить пользователя..."/>
+                    placeholder="Удалить пользователя..."
+                    onKeyPress={(e) => {if (e.key === "Enter") props.deleteUsers(); }}/>
                     <button className="btn btn-danger" onClick={() => props.deleteUsers()}><i className="far fa-trash-alt" /></button>
                 </div>
             </div>
