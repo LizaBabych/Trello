@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import List from './List';
 import Modal from './Modal';
-import { useSelector } from "react-redux";
 import '../styles/list.css';
 import '../styles/modal.css';
 

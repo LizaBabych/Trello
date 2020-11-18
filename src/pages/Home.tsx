@@ -7,7 +7,6 @@ import '../styles/sidebar.css';
 
 function Home() {
 
-  const token = JSON.parse(localStorage.getItem('token') || '{}');
   const history = useHistory();
   const isLogin = useSelector((state) => state.isLoginReducer.isLogin);
 

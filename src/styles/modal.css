@@ -10,7 +10,6 @@
 .modal-container {  width: 300px; }
 .modal-container-edit {
   width: 500px;
-  min-height: 400px;
 }
 .modal-content {
   border: 1px solid gray;
@@ -19,6 +18,16 @@
 .users-container {
   display: flex;
   justify-content: flex-start;
+}
+.wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.user-wrap {
+  border-radius: 7%;
+  background-color: LightGray;
+  padding: 5px;
 }
 .modal-title {
   display: flex;

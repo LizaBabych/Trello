@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import '../styles/modal.css';
 
-const EditCard = (props) =>{
+const EditCard = (props) => {
 
-  // const users = ["cdxs", "vfcdxs", "gvfcd"];
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenTitle, setOpenTitle] = useState<boolean>(false);
   const [isOpenDescr, setOpenDescr] = useState<boolean>(false);
 
   const keyPressChangeTitle = () => {
     props.updateTitleCard();
     props.getCard();
-    setIsOpen(false);
+    setOpenTitle(false);
   }
 
   const keyPressChangeDescription = () => {
@@ -26,21 +25,21 @@ const EditCard = (props) =>{
           <div className='modal-content'>
             <div className='modal-head'>
             <div className="users-container">
-              <h5 className="modal-title" onClick={() => setIsOpen(true)}>{props.card.title}</h5>
+              <h5 className="modal-title" onClick={() => setOpenTitle(true)}>{props.card.title}</h5>
             </div>
             <button><i className="fas fa-times" onClick={props.close} /></button>
             </div>
             <div className='modal-body'>
-            {isOpen &&
+            {isOpenTitle &&
               <div className="users-container mb-2">
               <input
                 value={props.name}
                 onChange={props.setName}
                 type="text"
                 className="form-control"
-                placeholder={props.card.title}
+                placeholder="Введите заголовок карточки..."
                 onKeyPress={(e) => {if (e.key === "Enter") keyPressChangeTitle(); }}  />
-                <button className="btn"><i className="fas fa-times text-danger" onClick={() => setIsOpen(false)} /></button>
+                <button className="btn"><i className="fas fa-times text-danger" onClick={() => setOpenTitle(false)} /></button>
               </div>
             }
             <div className="users-container">
@@ -55,42 +54,41 @@ const EditCard = (props) =>{
                     value={props.description}
                     onChange={props.setDescription}
                     className="form-control"
-                    placeholder={props.card.description}
-                    onKeyPress={(e) => {if (e.key === "Enter") keyPressChangeDescription(); }}  />
-                    <button className="btn"><i className="fas fa-times text-danger" onClick={() => setOpenDescr(false)} /></button>
+                    placeholder="Введите описание карточки..." />
+                  <button className="btn"><i className="fas fa-times text-danger" onClick={() => setOpenDescr(false)} /></button>
+                  <button className="btn btn-success" onClick={() => keyPressChangeDescription()}>Сохранить</button>
                 </>
               }
               </div>
-              <p className="mb-2">Пользователи</p>
+              <h5 className="mb-2">Пользователи</h5>
+              <div className="wrapper mb-2">
                 {props.card.users.map((user, idx) =>
-                  <div key={idx} className="users-container mb-2">
-                    <span>{user}</span>
-                    <span className="ml-1 close-user" data-toggle="tooltip"
-                          data-placement="bottom" title="Удалить">X</span>
+                  <div key={idx} className=" mb-2">
+                    <span className="user-wrap mr-2">{user}</span>
                   </div>
                 )}
-              <div className="users-container">
-                <input
-                  value={props.userName}
-                  onChange={props.setUserName}
-                  type="text"
-                  className="form-control"
-                  placeholder="Добавить" />
-                <button className="btn" onClick={props.updateUsers}><i className="fas fa-plus"/></button>
               </div>
+                <div className="users-container">
+                  <input
+                    onChange={props.setUserName}
+                    type="text"
+                    className="form-control"
+                    placeholder="Добавить пользователя..."/>
+                    <button className="btn btn-success" onClick={() => props.updateUsers()}><i className="fas fa-plus" /></button>
+                </div>
+                <div className="users-container mt-1">
+                  <input
+                    onChange={props.setRemoveUser}
+                    type="text"
+                    className="form-control"
+                    placeholder="Удалить пользователя..."/>
+                    <button className="btn btn-danger" onClick={() => props.deleteUsers()}><i className="far fa-trash-alt" /></button>
+                </div>
             </div>
           </div>
       </div>
     </div>
   );
 }
-// <button onClick={props.updateTitleCard}
-//   className="btn">
-//   <i className="fas fa-plus"/>
-// </button>
-// <button><i className="fas fa-times" onClick={props.close} /></button>
-// <div className="center mt-2">
-//   <button className="btn btn-success" onClick={props.save}>Сохранить</button>
-// </div>
 
 export default EditCard;

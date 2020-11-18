@@ -17,10 +17,10 @@ function Cards(props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cardName, setCardName] = useState<string>('');
   const [description, setCardDescription] = useState<string>('');
-  const [userName, setUserName] = useState<boolean>(false);
-  const [cards, setCards] = useState<object>(props.cards);
+  const [userName, setUserName] = useState<number>(0);
+  const [removeUser, setRemoveUser] = useState<number>(0);
+  const [cards, setCards] = useState<any>(props.cards);
   const [position, setPosition] = useState<number>(0);
-  const [currentCard, setCurrentCard] = useState<any>({});
 
   const token = JSON.parse(localStorage.getItem('token') || '{}');
 
@@ -44,7 +44,7 @@ function Cards(props) {
 
   async function getCard() {
     const result = await sendRequest("GET", `http://localhost:5000/v1/board/${props.boardId}`);
-    let cardsAray: any = [];
+    let cardsAray: Array<ICard> = [];
     Object.keys(result.lists[props.listId].cards).map(card => {
       cardsAray.push(result.lists[props.listId].cards[card]);
     })
@@ -116,7 +116,7 @@ function Cards(props) {
     }
   }
 
-  async function updateUsers(id: number) {
+  async function updateUsers(id: number, body) {
     setIsOpen(false);
     try {
       let response = await fetch(`http://localhost:5000/v1/board/${props.boardId}/card/${id}/users`, {
@@ -125,9 +125,7 @@ function Cards(props) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify ({
-          "add": [userName],
-        }),
+        body: body,
       });
       if (!response.ok) {
           console.log("Error: " + response.status);
@@ -155,7 +153,7 @@ function Cards(props) {
             userName={userName}
             setUserName={(e) => setUserName(e.target.value)}
             deleteCard={() => deleteCard(cards[card].id)}
-            updateCard={() => updateCard(cards[card].id, JSON.stringify ({                        // TODO: JSON переделать
+            updateCard={() => updateCard(cards[card].id, JSON.stringify ({
               "title": cardName,
               "list_id": props.listId,
             }))}
@@ -164,7 +162,14 @@ function Cards(props) {
               "list_id": props.listId,
             }))}
             getCard={async () => await getCard()}
-            updateUsers={() => updateUsers(cards[card].id)}/>
+            updateUsers={() => updateUsers(cards[card].id, JSON.stringify ({
+              "add": [userName],
+            }))}
+            setRemoveUser={(e) => setRemoveUser(e.target.value)}
+            removeUser={removeUser}
+            deleteUsers={() => updateUsers(cards[card].id, JSON.stringify ({
+              "remove": [removeUser],
+            }))}/>
         </div>
       ))}
       <button onClick={() => setIsOpen(true)} className="btn mt-2 ml-1">

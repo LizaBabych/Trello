@@ -8,7 +8,6 @@ import '../styles/modal.css';
 
 function Boards(props): any {
 
-  const token = JSON.parse(localStorage.getItem('token') || '{}');
   const isLogin = useSelector((state) => state.isLoginReducer.isLogin);
 
   const history = useHistory();

@@ -12,11 +12,6 @@ function Card(props) {
     + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
   }
 
-  const saveHandler = () => {
-    setIsOpen(false);
-    props.getCard();
-  }
-
   return (
     <>
       <div className="name">
@@ -36,22 +31,22 @@ function Card(props) {
         {getDate(props.card.created_at)}
       </div>
       {isOpen &&
-        <>
-          <EditCard
-            card={props.card}
-            name={props.cardName}
-            setName={props.setName}
-            description={props.description}
-            setDescription={props.setDescription}
-            userName={props.userName}
-            setUserName={props.setUserName}
-            updateDescriptionCard={props.updateDescriptionCard}
-            updateUsers={props.updateUsers}
-            getCard={props.getCard}
-            close={() => setIsOpen(false)}
-            save={() => saveHandler()}
-            updateTitleCard={props.updateCard}/>
-        </>
+        <EditCard
+          card={props.card}
+          name={props.cardName}
+          setName={props.setName}
+          description={props.description}
+          setDescription={props.setDescription}
+          userName={props.userName}
+          setUserName={props.setUserName}
+          updateTitleCard={props.updateCard}
+          updateDescriptionCard={props.updateDescriptionCard}
+          updateUsers={props.updateUsers}
+          deleteUsers={props.deleteUsers}
+          removeUser={props.removeUser}
+          setRemoveUser={props.setRemoveUser}
+          getCard={props.getCard}
+          close={() => setIsOpen(false)}/>
       }
     </>
   );

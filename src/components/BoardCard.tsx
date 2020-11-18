@@ -10,11 +10,6 @@ function BoardCard(props) {
   const [color, setColor] = useState<string>("default");
   const token = JSON.parse(localStorage.getItem('token') || '{}');
 
-  // const execute = () => {
-  //   props.updateBoard();
-  //   setIsOpen(false);
-  // }
-
   return (
     <div className={"board-card " + color}>
       <div className="board-card-name">
